@@ -21,5 +21,5 @@ func update(add):
 		maxLife = round(maxLife*1.25)
 		currentLife = maxLife
 		
-	text = str(currentLife) + "/" + str(maxLife)
+	text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)
 	
