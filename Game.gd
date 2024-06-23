@@ -7,10 +7,10 @@ var add = 1
 var addpersec = 1
 var combo = 0
 var mousepos = Vector2()
-	
 
 func _on_Timer_timeout():
 	score += addpersec #After the Timer resets, add the add per second to the score.
+	$Monster_Life.update(addpersec)
 
 func _process(_delta):
 	$Score.text = str(score) #Change the text to the current score every frame.
@@ -142,4 +142,4 @@ func _on_button_pressed_monster():
 	var Damage_Particles = particles_scene.instantiate()
 	add_child(Damage_Particles)		
 	Damage_Particles.restart()
-	$Monster1.modulate(1,1,1,0.5)
+	$Monster_Life.update(add)
