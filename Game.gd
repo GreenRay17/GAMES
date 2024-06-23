@@ -33,7 +33,7 @@ func _on_CPC1_pressed():
 		add = add + 1 #Add CPC
 		$VBoxContainer/CPC1.text = str("+1 CPC [", CPCRequirement, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
-
+	
 
 func _on_Click_pressed():
 	$ClickTimer.start()
@@ -142,7 +142,61 @@ func _on_button_pressed_monster():
 	var Damage_Particles = particles_scene.instantiate()
 	add_child(Damage_Particles)		
 	Damage_Particles.restart()
-	$Level.update(add)
-	
-			
+	$Level.update(add)	
 	$AudioStreamPlayer2D.play()
+	
+# Récupère la sauvegarde
+func _ready():
+	_getSave()
+
+# Sauvegarde à la fermeture
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_saveSave()
+	
+func _getSave():	
+	var file = FileAccess.open("res://Save/save.txt", FileAccess.READ)
+	
+	var score_var = file.get_var()
+	if score_var != null:
+		score += score_var
+		
+	var add_var = file.get_var()
+	if add_var != null:
+		add += add_var		
+		
+	var addpersec_var = file.get_var()
+	if addpersec_var != null:
+		addpersec += addpersec_var
+		
+	var combo_var = file.get_var()
+	if combo_var != null:
+		addpersec += addpersec_var
+		
+	var level_var = file.get_var()
+	if level_var != null:
+		$Level.level += level_var
+		
+	var currentLife_var = file.get_var()
+	if currentLife_var != null:
+		$Level.currentLife += currentLife_var
+		
+	var maxLife_var = file.get_var()
+	if maxLife_var != null:
+		$Level.maxLife += maxLife_var
+	
+	file.close()
+	
+func _saveSave():
+	var file = FileAccess.open("res://Save/save.txt", FileAccess.READ_WRITE)
+	file.store_var(score)
+	file.store_var(add)
+	file.store_var(addpersec)
+	file.store_var(combo)
+	file.store_var($Level.level)
+	file.store_var($Level.currentLife)		
+	file.store_var($Level.maxLife)
+	file.close()
+	get_tree().quit() #
+
+	
