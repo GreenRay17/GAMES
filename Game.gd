@@ -207,12 +207,18 @@ func _saveSave():
 	file.close()
 	get_tree().quit() #
 	
+const levels = [{"level":"1","bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
+{"level":"2", "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob2.jpg")},]
+
 func updateLevel(add):	
 	currentLife -= add	
-	
 	if currentLife <= 0:
 		level += 1
 		maxLife = round(maxLife*1.25)
 		currentLife = maxLife
+		
+		if levels.has(level):
+			$Background.texture = levels[level]["bg"]
+			$Monster.texture = levels[level]["mob"]
 		
 	$Level.text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)

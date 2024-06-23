@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://uydga38hgrtj"]
+[gd_scene load_steps=3 format=3 uid="uid://dtxs7k7aqwdt6"]
 
-[ext_resource type="Texture2D" uid="uid://cohmul2msqlrv" path="res://Resources/Images/CHARACTER/fotor-ai-2024062217659-fotor-bg-remover-20240622171553.png" id="1_slqcw"]
+[ext_resource type="Texture2D" uid="uid://cohmul2msqlrv" path="res://Resources/Images/CHARACTER/mob1.png" id="1_slqcw"]
 [ext_resource type="Script" path="res://Monster.gd" id="2_6ordh"]
 
 [node name="Char1" type="Sprite2D"]
