@@ -1,10 +1,12 @@
 extends Control
+extends Particles
 
 var score = 0
 var add = 1
 var addpersec = 1
 var combo = 0
-
+var mousepos = Vector2()
+	
 
 func _on_Timer_timeout():
 	score += addpersec #After the Timer resets, add the add per second to the score.
@@ -134,6 +136,18 @@ func _on_CPC5_pressed():
 		$VBoxContainer/CPC5.text = str("+500 CPC [", CPCRequirement5, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 
-
-func _on_button_pressed():
+	
+func _on_button_pressed_monster():
 	score += add # Replace with function body.
+	
+	mousepos = get_global_mouse_position()
+	
+	$Effect_OnHit_Simple.position = mousepos
+	
+	var newEffect = $Effect_OnHit_Simple
+	$Control.add_child(newEffect)
+	
+	$Effect_OnHit_Simple.visible = true
+	await get_tree().create_timer(1).timeout 	
+	$Effect_OnHit_Simple.visible = false
+	$Control.remove_child(newEffect)
