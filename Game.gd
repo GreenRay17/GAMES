@@ -6,11 +6,16 @@ var score = 0
 var add = 1
 var addpersec = 1
 var combo = 0
+
+var level = 1
+var currentLife = 10
+var maxLife = 10
+
 var mousepos = Vector2()
 
 func _on_Timer_timeout():
 	score += addpersec #After the Timer resets, add the add per second to the score.
-	$Level.update(addpersec)
+	updateLevel(addpersec)
 
 func _process(_delta):
 	$Score.text = str(score) #Change the text to the current score every frame.
@@ -142,12 +147,15 @@ func _on_button_pressed_monster():
 	var Damage_Particles = particles_scene.instantiate()
 	add_child(Damage_Particles)		
 	Damage_Particles.restart()
-	$Level.update(add)	
+	updateLevel(add)	
 	$AudioStreamPlayer2D.play()
 	
 # Récupère la sauvegarde
-func _ready():
+func _init():
 	_getSave()
+
+func _ready():
+	updateLevel(1)
 
 # Sauvegarde à la fermeture
 func _notification(what):
@@ -175,15 +183,15 @@ func _getSave():
 		
 	var level_var = file.get_var()
 	if level_var != null:
-		$Level.level += level_var
+		level += level_var
 		
 	var currentLife_var = file.get_var()
 	if currentLife_var != null:
-		$Level.currentLife += currentLife_var
+		currentLife += currentLife_var
 		
 	var maxLife_var = file.get_var()
 	if maxLife_var != null:
-		$Level.maxLife += maxLife_var
+		maxLife += maxLife_var
 	
 	file.close()
 	
@@ -193,10 +201,18 @@ func _saveSave():
 	file.store_var(add)
 	file.store_var(addpersec)
 	file.store_var(combo)
-	file.store_var($Level.level)
-	file.store_var($Level.currentLife)		
-	file.store_var($Level.maxLife)
+	file.store_var(level)
+	file.store_var(currentLife)		
+	file.store_var(maxLife)
 	file.close()
 	get_tree().quit() #
-
 	
+func updateLevel(add):	
+	currentLife -= add	
+	
+	if currentLife <= 0:
+		level += 1
+		maxLife = round(maxLife*1.25)
+		currentLife = maxLife
+		
+	$Level.text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)
