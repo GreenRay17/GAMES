@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://djd0kqwg7akmb"]
+
+[ext_resource type="Script" path="res://Effect_OnHit_Simple.gd" id="1_dxg5e"]
+
+[sub_resource type="Gradient" id="Gradient_i421o"]
+colors = PackedColorArray(0.679029, 0, 0, 1, 0.587272, 0.643577, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k0ku0"]
+gradient = SubResource("Gradient_i421o")
+
+[sub_resource type="Curve" id="Curve_t1yub"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.252747), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kcd2s"]
+curve = SubResource("Curve_t1yub")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0nkqw"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 30.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 140, 0)
+scale_min = 3.0
+scale_max = 15.0
+scale_curve = SubResource("CurveTexture_kcd2s")
+color_ramp = SubResource("GradientTexture1D_k0ku0")
+turbulence_noise_strength = 5.13
+
+[node name="Effect_OnHit_Simple" type="GPUParticles2D"]
+position = Vector2(960, 744)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_0nkqw")
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("1_dxg5e")

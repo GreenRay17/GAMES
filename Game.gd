@@ -1,5 +1,6 @@
 extends Control
-extends Particles
+
+const particles_scene = preload("res://effect_on_hit_simple.tscn")
 
 var score = 0
 var add = 1
@@ -136,18 +137,9 @@ func _on_CPC5_pressed():
 		$VBoxContainer/CPC5.text = str("+500 CPC [", CPCRequirement5, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 
-	
 func _on_button_pressed_monster():
 	score += add # Replace with function body.
-	
-	mousepos = get_global_mouse_position()
-	
-	$Effect_OnHit_Simple.position = mousepos
-	
-	var newEffect = $Effect_OnHit_Simple
-	$Control.add_child(newEffect)
-	
-	$Effect_OnHit_Simple.visible = true
-	await get_tree().create_timer(1).timeout 	
-	$Effect_OnHit_Simple.visible = false
-	$Control.remove_child(newEffect)
+	var Damage_Particles = particles_scene.instantiate()
+	add_child(Damage_Particles)		
+	Damage_Particles.restart()
+	$Monster1.modulate(1,1,1,0.5)
