@@ -11,6 +11,8 @@ var level = 1
 var currentLife = 10
 var maxLife = 10
 
+var withSave = false
+
 var mousepos = Vector2()
 
 func _on_Timer_timeout():
@@ -36,7 +38,7 @@ func _on_CPC1_pressed():
 		score -= CPCRequirement
 		CPCRequirement = round(CPCRequirement * 1.4)
 		add = add + 1 #Add CPC
-		$VBoxContainer/CPC1.text = str("+1 CPC [", CPCRequirement, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPC1.text = str("+1 CPC [", CPCRequirement, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 	
 
@@ -60,7 +62,7 @@ func _on_CPS1_pressed():
 		score -= CPSRequirement
 		CPSRequirement = round(CPSRequirement * 1.4)
 		addpersec = addpersec + 1 #Add CPS.
-		$VBoxContainer/CPS1.text = str("+1 CPS [", CPSRequirement, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPS1.text = str("+1 CPS [", CPSRequirement, "]") #Combine multiple strings to show the required clicks.
 		$Label2.text = str("CPS:", addpersec)
 
 
@@ -85,7 +87,7 @@ func _on_CPC2_pressed():
 		score -= CPCRequirement2
 		CPCRequirement2 = round(CPCRequirement2 * 1.3)
 		add = add + 5 #Add CPC
-		$VBoxContainer/CPC2.text = str("+5 CPC [", CPCRequirement2, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPC2.text = str("+5 CPC [", CPCRequirement2, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 
 
@@ -94,7 +96,7 @@ func _on_CPS3_pressed():
 		score -= CPSRequirement3
 		CPSRequirement3 = round(CPSRequirement3 * 1.2)
 		addpersec = addpersec + 20 #Add CPS.
-		$VBoxContainer/CPS3.text = str("+20 CPS [", CPSRequirement3, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPS3.text = str("+20 CPS [", CPSRequirement3, "]") #Combine multiple strings to show the required clicks.
 		$Label2.text = str("CPS:", addpersec)
 
 
@@ -103,7 +105,7 @@ func _on_CPC3_pressed():
 		score -= CPCRequirement3
 		CPCRequirement3 = round(CPCRequirement3 * 1.2)
 		add = add + 20 #Add CPC
-		$VBoxContainer/CPC3.text = str("+20 CPC [", CPCRequirement3, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPC3.text = str("+20 CPC [", CPCRequirement3, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 
 
@@ -112,7 +114,7 @@ func _on_CPS4_pressed():
 		score -= CPSRequirement4
 		CPSRequirement4 = round(CPSRequirement4 * 1.1)
 		addpersec = addpersec + 125 #Add CPS.
-		$VBoxContainer/CPS4.text = str("+125 CPS [", CPSRequirement4, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPS4.text = str("+125 CPS [", CPSRequirement4, "]") #Combine multiple strings to show the required clicks.
 		$Label2.text = str("CPS:", addpersec)
 
 
@@ -121,7 +123,7 @@ func _on_CPC4_pressed():
 		score -= CPCRequirement4
 		CPCRequirement4 = round(CPCRequirement4 * 1.1)
 		add = add + 125 #Add CPC
-		$VBoxContainer/CPC4.text = str("+125 CPC [", CPCRequirement4, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPC4.text = str("+125 CPC [", CPCRequirement4, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 
 
@@ -130,7 +132,7 @@ func _on_CPS5_pressed():
 		score -= CPSRequirement5
 		CPSRequirement5 = CPSRequirement5
 		addpersec = addpersec + 500 #Add CPS.
-		$VBoxContainer/CPS5.text = str("+500 CPS [", CPSRequirement5, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPS5.text = str("+500 CPS [", CPSRequirement5, "]") #Combine multiple strings to show the required clicks.
 		$Label2.text = str("CPS:", addpersec)
 
 
@@ -139,7 +141,7 @@ func _on_CPC5_pressed():
 		score -= CPCRequirement5
 		CPCRequirement5 = CPCRequirement5
 		add = add + 500 #Add CPC
-		$VBoxContainer/CPC5.text = str("+500 CPC [", CPCRequirement5, "]") #Combine multiple strings to show the required clicks.
+		$BuyMenu/VBoxContainer/CPC5.text = str("+500 CPC [", CPCRequirement5, "]") #Combine multiple strings to show the required clicks.
 		$Label3.text = str("CPC:", add)
 
 func _on_button_pressed_monster():
@@ -163,6 +165,8 @@ func _notification(what):
 		_saveSave()
 	
 func _getSave():	
+	if withSave == false:
+		return
 	var file = FileAccess.open("res://Save/save.txt", FileAccess.READ)
 	
 	var score_var = file.get_var()
@@ -196,6 +200,9 @@ func _getSave():
 	file.close()
 	
 func _saveSave():
+	if withSave == false:
+		return
+		
 	var file = FileAccess.open("res://Save/save.txt", FileAccess.READ_WRITE)
 	file.store_var(score)
 	file.store_var(add)
@@ -207,8 +214,20 @@ func _saveSave():
 	file.close()
 	get_tree().quit() #
 	
-const levels = [{"level":"1","bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
-{"level":"2", "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob2.jpg")},]
+const levels = [{"level":1, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
+{"level":2, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob2.jpg")},
+{"level":3, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob3.png")},
+{"level":4, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob4.png")},
+{"level":5, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob5.png")},
+{"level":6, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob6.png")},
+{"level":7, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob7.png")},
+{"level":8, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob8.png")},
+{"level":9, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob9.png")},
+{"level":10, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob10.png")},
+{"level":11, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob11.png")},
+{"level":12, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob12.png")},
+{"level":13, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob13.png")},
+{"level":14, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob14.png")},]
 
 func updateLevel(add):	
 	currentLife -= add	
@@ -217,8 +236,19 @@ func updateLevel(add):
 		maxLife = round(maxLife*1.25)
 		currentLife = maxLife
 		
-		if levels.has(level):
-			$Background.texture = levels[level]["bg"]
-			$Monster.texture = levels[level]["mob"]
+		if levels.any(func(lvl): return lvl.level == level):
+			$Background.texture = levels[level-1]["bg"]
+			$Monster.texture = levels[level-1]["mob"]
+		else:
+			var rng = RandomNumberGenerator.new()
+			var random_level = rng.randf_range(0, 13)		
+			$Background.texture = levels[random_level]["bg"]
+			$Monster.texture = levels[random_level]["mob"]
 		
 	$Level.text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)
+
+
+func _input(event):
+	if (event is InputEventKey and not event.is_echo()):
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			$BuyMenu.visible = !$BuyMenu.visible
