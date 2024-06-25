@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://6oeyhf107cnl"]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+
+[node name="CPS1" type="Button" parent="."]
+layout_mode = 2
+text = "+1 CPS [20]"
+
+[node name="CPC1" type="Button" parent="."]
+layout_mode = 2
+text = "+1 CPC [20]"
+
+[node name="CPS2" type="Button" parent="."]
+layout_mode = 2
+text = "+5 CPS [150]"
+
+[node name="CPC2" type="Button" parent="."]
+layout_mode = 2
+text = "+5 CPC [150]"
+
+[node name="CPS3" type="Button" parent="."]
+layout_mode = 2
+text = "+20 CPS [1400]"
+
+[node name="CPC3" type="Button" parent="."]
+layout_mode = 2
+text = "+20 CPC [1400]"
+
+[node name="CPS4" type="Button" parent="."]
+layout_mode = 2
+text = "+125 CPS [12000]"
+
+[node name="CPC4" type="Button" parent="."]
+layout_mode = 2
+text = "+125 CPC [12000]"
+
+[node name="CPS5" type="Button" parent="."]
+layout_mode = 2
+text = "+500 CPS [200000]"
+
+[node name="CPC5" type="Button" parent="."]
+layout_mode = 2
+text = "+500 CPC [200000]"
