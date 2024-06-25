@@ -167,7 +167,7 @@ func _notification(what):
 func _getSave():	
 	if withSave == false:
 		return
-	var file = FileAccess.open("res://Save/save.txt", FileAccess.READ)
+	var file = FileAccess.open("res:/save.txt", FileAccess.READ)
 	
 	var score_var = file.get_var()
 	if score_var != null:
@@ -203,7 +203,7 @@ func _saveSave():
 	if withSave == false:
 		return
 		
-	var file = FileAccess.open("res://Save/save.txt", FileAccess.READ_WRITE)
+	var file = FileAccess.open("res://save.txt", FileAccess.READ_WRITE)
 	file.store_var(score)
 	file.store_var(add)
 	file.store_var(addpersec)
