@@ -246,13 +246,20 @@ func updateLevel(add):
 			$Monster.texture = levels[random_level]["mob"]
 		
 	$Level.text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)
-
-
+				
+var epee_cursor = preload("res://Resources/Images/epee100.png")
+var epee_onclick = preload("res://Resources/Images/epee_onclick.png")
 func _input(event):
 	if (event is InputEventKey and not event.is_echo()):
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			$VBoxContainer.visible = !$VBoxContainer.visible
-
+					
+	if event is InputEventMouseButton:
+		if event.pressed == false:
+				Input.set_custom_mouse_cursor(epee_cursor)
+		else:
+				Input.set_custom_mouse_cursor(epee_onclick)
+			
 
 func _on_control_button_down():
 	$VBoxContainer.visible = !$VBoxContainer.visible
