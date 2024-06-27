@@ -5,7 +5,6 @@ const particles_scene = preload("res://effect_on_hit_simple.tscn")
 var score = 0
 var add = 1
 var addpersec = 1
-var combo = 0
 
 var level = 1
 var currentLife = 10
@@ -43,19 +42,6 @@ func _on_CPC1_pressed():
 		$Label3.text = str("CPC:", add)
 	
 
-func _on_Click_pressed():
-	$ClickTimer.start()
-	if combo < 25: # Make sure combo doesn't get too high
-		combo += 1
-	if combo >= 25: # Enable the other sparks when combo is over 25
-		$ComboEffect3.emitting = true # More Sparks
-	if combo > 15: # Enable the sparks when combo is over 15
-		$ComboEffect2.emitting = true # Sparks
-	if combo > 10: # Enable the effects when combo is over 10
-		score += round(add * (combo / 10))
-		$ComboEffect.emitting = true
-	if combo <= 10: # No combo
-		score += add
 
 
 func _on_CPS1_pressed():
@@ -65,13 +51,6 @@ func _on_CPS1_pressed():
 		addpersec = addpersec + 1 #Add CPS.
 		$VBoxContainer/CPS1.text = str("+1 CPS [", CPSRequirement, "]") #Combine multiple strings to show the required clicks.
 		$Label2.text = str("CPS:", addpersec)
-
-
-func _on_ClickTimer_timeout():
-	combo = 0
-	$ComboEffect.emitting = false # Effects
-	$ComboEffect2.emitting = false # Sparks
-	$ComboEffect3.emitting = false # More Sparks
 
 
 func _on_CPS2_pressed():
@@ -146,13 +125,14 @@ func _on_CPC5_pressed():
 		$Label3.text = str("CPC:", add)
 
 func _on_button_pressed_monster():
-	score += add # Replace with function body.
+	#score += add # Replace with function body.
 	var Damage_Particles = particles_scene.instantiate()
 	add_child(Damage_Particles)		
 	Damage_Particles.restart()
 	updateLevel(add)	
 	#$AudioStreamPlayer2D.play()		
 	$ProgressBar.value = currentLife
+	
 	
 # Récupère la sauvegarde
 func _init():
@@ -186,11 +166,7 @@ func _getSave():
 	var addpersec_var = file.get_var()
 	if addpersec_var != null:
 		addpersec += addpersec_var
-		
-	var combo_var = file.get_var()
-	if combo_var != null:
-		addpersec += addpersec_var
-		
+			
 	var level_var = file.get_var()
 	if level_var != null:
 		level += level_var
@@ -213,7 +189,6 @@ func _saveSave():
 	file.store_var(score)
 	file.store_var(add)
 	file.store_var(addpersec)
-	file.store_var(combo)
 	file.store_var(level)
 	file.store_var(currentLife)		
 	file.store_var(maxLife)
