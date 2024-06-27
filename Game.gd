@@ -125,7 +125,7 @@ func _on_CPC5_pressed():
 		$Label3.text = str("CPC:", add)
 
 func _on_button_pressed_monster():
-	#score += add # Replace with function body.
+	score += add # Replace with function body.
 	var Damage_Particles = particles_scene.instantiate()
 	add_child(Damage_Particles)		
 	Damage_Particles.restart()
