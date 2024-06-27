@@ -1,7 +1,5 @@
 extends Control
 
-const particles_scene = preload("res://effect_on_hit_simple.tscn")
-
 var score = 0
 var add = 1
 var addpersec = 1
@@ -126,9 +124,7 @@ func _on_CPC5_pressed():
 
 func _on_button_pressed_monster():
 	score += add # Replace with function body.
-	var Damage_Particles = particles_scene.instantiate()
-	add_child(Damage_Particles)		
-	Damage_Particles.restart()
+	$Monster/EffectOnHit.restart()
 	updateLevel(add)	
 	#$AudioStreamPlayer2D.play()		
 	$ProgressBar.value = currentLife
