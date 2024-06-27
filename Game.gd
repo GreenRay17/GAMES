@@ -18,8 +18,7 @@ var mousepos = Vector2()
 func _on_Timer_timeout():
 	score += addpersec #After the Timer resets, add the add per second to the score.
 	updateLevel(addpersec)	
-	$ProgressBar.value = maxLife-currentLife
-	$ProgressBar.max_value = maxLife
+	$ProgressBar.value = currentLife
 
 func _process(_delta):
 	$Score.text = str(score) #Change the text to the current score every frame.
@@ -153,8 +152,7 @@ func _on_button_pressed_monster():
 	Damage_Particles.restart()
 	updateLevel(add)	
 	#$AudioStreamPlayer2D.play()		
-	$ProgressBar.value = maxLife-currentLife
-	$ProgressBar.max_value = maxLife
+	$ProgressBar.value = currentLife
 	
 # Récupère la sauvegarde
 func _init():
@@ -162,7 +160,7 @@ func _init():
 
 func _ready():	
 	updateLevel(1)
-	$ProgressBar.value = maxLife-currentLife
+	$ProgressBar.value = maxLife
 	$ProgressBar.max_value = maxLife
 	$ProgressBar.step = 1
 	
@@ -243,6 +241,7 @@ func updateLevel(add):
 		level += 1
 		maxLife = round(maxLife*level)
 		currentLife = maxLife		
+		$ProgressBar.max_value = maxLife
 		
 		if levels.any(func(lvl): return lvl.level == level):
 			$Background.texture = levels[level-1]["bg"]
