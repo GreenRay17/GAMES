@@ -3,6 +3,7 @@ extends Control
 const particles_scene = preload("res://EffectOnHit.tscn")
 
 var score = 0
+var diamant = 0
 var add = 1
 var addpersec = 1
 
@@ -21,17 +22,18 @@ func _on_Timer_timeout():
 
 func _process(_delta):
 	$Score.text = str(score) #Change the text to the current score every frame.
-
-var CPSRequirement = 20 #Clicks required to upgrade Clicks Per Second
+	$Diamant.text = str(diamant)
+	
 var CPCRequirement = 20 #Clicks required to upgrade Clicks Per Click
-var CPSRequirement2 = 150 #Clicks required to upgrade Clicks Per Second #2
 var CPCRequirement2 = 150 #Clicks required to upgrade Clicks Per Click #2
-var CPSRequirement3 = 1400 #Clicks required to upgrade Clicks Per Second #3
 var CPCRequirement3 = 1400 #Clicks required to upgrade Clicks Per Click #3
-var CPSRequirement4 = 12000 #Clicks required to upgrade Clicks Per Second #4
 var CPCRequirement4 = 12000 #Clicks required to upgrade Clicks Per Click #4
-var CPSRequirement5 = 200000 #Clicks required to upgrade Clicks Per Second #5
 var CPCRequirement5 = 200000 #Clicks required to upgrade Clicks Per Click #5
+var CPSRequirement = 5 #Clicks required to upgrade Clicks Per Second
+var CPSRequirement2 = 25 #Clicks required to upgrade Clicks Per Second #2
+var CPSRequirement3 = 100 #Clicks required to upgrade Clicks Per Second #3
+var CPSRequirement4 = 625 #Clicks required to upgrade Clicks Per Second #4
+var CPSRequirement5 = 2500 #Clicks required to upgrade Clicks Per Second #5
 
 func displayBought(text):
 	$Bought.text = text
@@ -56,8 +58,8 @@ func _on_CPC1_pressed():
 
 
 func _on_CPS1_pressed():
-	if score >= CPSRequirement:
-		score -= CPSRequirement
+	if diamant >= CPSRequirement:
+		diamant -= CPSRequirement
 		CPSRequirement = round(CPSRequirement * 1.4)
 		addpersec = addpersec + 1 #Add CPS.
 		var msg = str("+1 CPS [", CPSRequirement, "]") 
@@ -67,8 +69,8 @@ func _on_CPS1_pressed():
 
 
 func _on_CPS2_pressed():
-	if score >= CPSRequirement2:
-		score -= CPSRequirement2
+	if diamant >= CPSRequirement2:
+		diamant -= CPSRequirement2
 		CPSRequirement2 = round(CPSRequirement2 * 1.3)
 		addpersec = addpersec + 5 #Add CPS.
 		var msg = str("+5 CPS [", CPSRequirement2, "]")
@@ -225,23 +227,23 @@ func _saveSave():
 	get_tree().quit() #
 	
 const levels = [{"level":1, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
-{"level":2, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob2.jpg")},
-{"level":3, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob3.png")},
-{"level":4, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob4.png")},
-{"level":5, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob5.png")},
-{"level":6, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob6.png")},
-{"level":7, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob7.png")},
-{"level":8, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob8.png")},
-{"level":9, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob9.png")},
-{"level":10, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob10.png")},
-{"level":11, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob11.png")},
-{"level":12, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob12.png")},
-{"level":13, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob13.png")},
-{"level":14, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob14.png")},]
+{"level":2, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob3.png")},
+{"level":3, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob4.png")},
+{"level":4, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob5.png")},
+{"level":5, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob6.png")},
+{"level":6, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob7.png")},
+{"level":7, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob8.png")},
+{"level":8, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob9.png")},
+{"level":9, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob10.png")},
+{"level":10, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob11.png")},
+{"level":11, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob12.png")},
+{"level":12, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob13.png")},
+{"level":13, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob14.png")},]
 
 func updateLevel(add):	
 	currentLife -= add	
 	if currentLife <= 0:
+		diamant += add
 		level += 1
 		maxLife = round(maxLife*level)
 		currentLife = maxLife		
