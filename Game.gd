@@ -65,57 +65,19 @@ func _process(_delta):
 	$DiamondValue.text = str(diamond)
 	_toggleCpsItem()
 	
-func _toggleCpcItem():
-	if gold >= config.CPCRequirement:
-		$MenuBoutique/CPC1.disabled = false
-	else:
-		$MenuBoutique/CPC1.disabled = true
-		
-	if gold >= config.CPCRequirement2:
-		$MenuBoutique/CPC2.disabled = false
-	else:
-		$MenuBoutique/CPC2.disabled = true
-	
-	if gold >= config.CPCRequirement3:
-		$MenuBoutique/CPC3.disabled = false
-	else:
-		$MenuBoutique/CPC3.disabled = true
-		
-	if gold >= config.CPCRequirement4:
-		$MenuBoutique/CPC4.disabled = false
-	else:
-		$MenuBoutique/CPC4.disabled = true
-		
-	if gold >= config.CPCRequirement5:
-		$MenuBoutique/CPC5.disabled = false
-	else:
-		$MenuBoutique/CPC5.disabled = true
+func _toggleCpcItem():		
+	$MenuBoutique/CPC1.disabled = gold >= config.CPCRequirement
+	$MenuBoutique/CPC2.disabled = gold >= config.CPCRequirement2
+	$MenuBoutique/CPC3.disabled = gold >= config.CPCRequirement3
+	$MenuBoutique/CPC4.disabled = gold >= config.CPCRequirement4
+	$MenuBoutique/CPC5.disabled = gold >= config.CPCRequirement5	
 		
 func _toggleCpsItem():
-	if diamond >= config.CPSRequirement:
-		$MenuBoutique/CPS1.disabled = false
-	else:
-		$MenuBoutique/CPS1.disabled = true
-		
-	if diamond >= config.CPSRequirement2:
-		$MenuBoutique/CPS2.disabled = false
-	else:
-		$MenuBoutique/CPS2.disabled = true
-	
-	if diamond >= config.CPSRequirement3:
-		$MenuBoutique/CPS3.disabled = false
-	else:
-		$MenuBoutique/CPS3.disabled = true
-		
-	if diamond >= config.CPSRequirement4:
-		$MenuBoutique/CPS4.disabled = false
-	else:
-		$MenuBoutique/CPS4.disabled = true
-		
-	if diamond >= config.CPSRequirement5:
-		$MenuBoutique/CPS5.disabled = false
-	else:
-		$MenuBoutique/CPS5.disabled = true
+	$MenuBoutique/CPS1.disabled = diamond >= config.CPSRequirement
+	$MenuBoutique/CPS2.disabled = diamond >= config.CPSRequirement2
+	$MenuBoutique/CPS3.disabled = diamond >= config.CPSRequirement3
+	$MenuBoutique/CPS4.disabled = diamond >= config.CPSRequirement4
+	$MenuBoutique/CPS5.disabled = diamond >= config.CPSRequirement5
 						
 func _input(event):
 	if (event is InputEventKey and not event.is_echo()):
