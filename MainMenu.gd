@@ -1,7 +1,5 @@
 extends Control
 
-var withSave  = false
-
 const menu_options = preload("res://MenuOptions.tscn")
 var menu_options_inst = null
 

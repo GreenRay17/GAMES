@@ -1,7 +1,5 @@
 extends Control
 
-const particles_scene = preload("res://EffectOnHit.tscn")
-
 var score = 0
 var diamant = 0
 var add = 1
@@ -10,55 +8,28 @@ var addpersec = 1
 var level = 1
 var currentLife = 10
 var maxLife = 10
-	
-var CPCRequirement = 20 #Clicks required to upgrade Clicks Per Click
-var CPCRequirement2 = 150 #Clicks required to upgrade Clicks Per Click #2
-var CPCRequirement3 = 1400 #Clicks required to upgrade Clicks Per Click #3
-var CPCRequirement4 = 12000 #Clicks required to upgrade Clicks Per Click #4
-var CPCRequirement5 = 200000 #Clicks required to upgrade Clicks Per Click #5
 
-var CPSRequirement = 5 #Clicks required to upgrade Clicks Per Second
-var CPSRequirement2 = 25 #Clicks required to upgrade Clicks Per Second #2
-var CPSRequirement3 = 100 #Clicks required to upgrade Clicks Per Second #3
-var CPSRequirement4 = 625 #Clicks required to upgrade Clicks Per Second #4
-var CPSRequirement5 = 2500 #Clicks required to upgrade Clicks Per Second #5
-
-const levels = [{"level":1, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
-{"level":2, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob3.png")},
-{"level":3, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob4.png")},
-{"level":4, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob5.png")},
-{"level":5, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob6.png")},
-{"level":6, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob7.png")},
-{"level":7, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob8.png")},
-{"level":8, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob9.png")},
-{"level":9, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob10.png")},
-{"level":10, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob11.png")},
-{"level":11, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob12.png")},
-{"level":12, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob13.png")},
-{"level":13, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob14.png")},]
-
-const epee_cursor = preload("res://Resources/Images/epee100.png")
-const epee_onclick = preload("res://Resources/Images/epee_onclick.png")
-
-var withSave = false
+const preload_config = preload("res://configs.gd")
+var config = preload_config.new()
+const particles_scene = preload("res://EffectOnHit.tscn")
 
 func _ready():	
 	await _getSettings()
 	await _getSave()
 	
 	updateLevel(0)
-	$ProgressBar.value = currentLife
-	$ProgressBar.max_value = maxLife
-	$ProgressBar.step = 1
+	$BossLife.value = currentLife
+	$BossLife.max_value = maxLife
+	$BossLife.step = 1
 	
 func _getSettings():
 	var file = FileAccess.open("res://settings.txt", FileAccess.READ)
 	
-	$BackgroundMusic.volume_db = file.get_var()
-	$ClickMusic.volume_db = file.get_var()
+	$Background/BackgroundMusic.volume_db = file.get_var()
+	$Monster/HitSound.volume_db = file.get_var()
 
-func _getSave():	
-	if withSave == false:
+func _getSave():
+	if config.withSave == false:
 		return
 	var file = FileAccess.open("res://save.txt", FileAccess.READ)
 	
@@ -89,8 +60,8 @@ func _getSave():
 	file.close()
 	
 func _process(_delta):
-	$Score.text = str(score) #Change the text to the current score every frame.
-	$Diamant.text = str(diamant)
+	$GoldValue.text = str(score) #Change the text to the current score every frame.
+	$DiamondValue.text = str(diamant)
 				
 func _input(event):
 	if (event is InputEventKey and not event.is_echo()):
@@ -100,119 +71,118 @@ func _input(event):
 func _on_Timer_timeout():
 	score += addpersec #After the Timer resets, add the add per second to the score.
 	updateLevel(addpersec)	
-	$ProgressBar.value = currentLife
+	$BossLife.value = currentLife
 		
 func _on_CPC1_pressed():
-	if score >= CPCRequirement:
-		score -= CPCRequirement
-		CPCRequirement = round(CPCRequirement * 1.4)
+	if score >= config.CPCRequirement:
+		score -= config.CPCRequirement
+		config.CPCRequirement = round(config.CPCRequirement * 1.4)
 		add = add + 1 #Add CPC
-		var msg = str("+1 CPC [", CPCRequirement, "]")
+		var msg = str("+1 CPC [", config.CPCRequirement, "]")
 		$MenuBoutique/CPC1.text = msg #Combine multiple strings to show the required clicks.
-		$Label3.text = str("CPC:", add)
-		displayBought(msg)
+		$CPC.text = str("CPC:", add)
+		displayBought($MenuBoutique/BoughtCPC, msg)
 
 func _on_CPC2_pressed():
-	if score >= CPCRequirement2:
-		score -= CPCRequirement2
-		CPCRequirement2 = round(CPCRequirement2 * 1.3)
+	if score >= config.CPCRequirement2:
+		score -= config.CPCRequirement2
+		config.CPCRequirement2 = round(config.CPCRequirement2 * 1.3)
 		add = add + 5 #Add CPC
-		var msg = str("+5 CPC [", CPCRequirement2, "]")
+		var msg = str("+5 CPC [", config.CPCRequirement2, "]")
 		$MenuBoutique/CPC2.text = msg#Combine multiple strings to show the required clicks.
-		$Label3.text = str("CPC:", add)
-		displayBought(msg)
+		$CPC.text = str("CPC:", add)
+		displayBought($MenuBoutique/BoughtCPC, msg)
 	
 func _on_CPC3_pressed():
-	if score >= CPCRequirement3:
-		score -= CPCRequirement3
-		CPCRequirement3 = round(CPCRequirement3 * 1.2)
+	if score >= config.CPCRequirement3:
+		score -= config.CPCRequirement3
+		config.CPCRequirement3 = round(config.CPCRequirement3 * 1.2)
 		add = add + 20 #Add CPC
-		var msg = str("+20 CPC [", CPCRequirement3, "]")
+		var msg = str("+20 CPC [", config.CPCRequirement3, "]")
 		$MenuBoutique/CPC3.text = msg #Combine multiple strings to show the required clicks.
-		$Label3.text = str("CPC:", add)
-		displayBought(msg)
+		$CPC.text = str("CPC:", add)
+		displayBought($MenuBoutique/BoughtCPC, msg)
 
 func _on_CPC4_pressed():
-	if score >= CPCRequirement4:
-		score -= CPCRequirement4
-		CPCRequirement4 = round(CPCRequirement4 * 1.1)
+	if score >= config.CPCRequirement4:
+		score -= config.CPCRequirement4
+		config.CPCRequirement4 = round(config.CPCRequirement4 * 1.1)
 		add = add + 125 #Add CPC
-		var msg = str("+125 CPC [", CPCRequirement4, "]")
+		var msg = str("+125 CPC [", config.CPCRequirement4, "]")
 		$MenuBoutique/CPC4.text = msg #Combine multiple strings to show the required clicks.
-		$Label3.text = str("CPC:", add)		
-		displayBought(msg)
+		$CPC.text = str("CPC:", add)		
+		displayBought($MenuBoutique/BoughtCPC, msg)
 	
 func _on_CPC5_pressed():
-	if score >= CPCRequirement5:
-		score -= CPCRequirement5
-		CPCRequirement5 = CPCRequirement5
+	if score >= config.CPCRequirement5:
+		score -= config.CPCRequirement5
+		config.CPCRequirement5 = config.CPCRequirement5
 		add = add + 500 #Add CPC
-		var msg = str("+500 CPC [", CPCRequirement5, "]")
+		var msg = str("+500 CPC [", config.CPCRequirement5, "]")
 		$MenuBoutique/CPC5.text = msg #Combine multiple strings to show the required clicks.
-		$Label3.text = str("CPC:", add)	
-		displayBought(msg)
+		$CPC.text = str("CPC:", add)	
+		displayBought($MenuBoutique/BoughtCPC, msg)
 		
 func _on_CPS1_pressed():
-	if diamant >= CPSRequirement:
-		diamant -= CPSRequirement
-		CPSRequirement = round(CPSRequirement * 1.4)
+	if diamant >= config.CPSRequirement:
+		diamant -= config.CPSRequirement
+		config.CPSRequirement = round(config.CPSRequirement * 1.4)
 		addpersec = addpersec + 1 #Add CPS.
-		var msg = str("+1 CPS [", CPSRequirement, "]") 
+		var msg = str("+1 CPS [", config.CPSRequirement, "]") 
 		$MenuBoutique/CPS1.text = msg#Combine multiple strings to show the required clicks.
-		$Label2.text = str("CPS:", addpersec)
-		displayBought(msg)
+		$CPS.text = str("CPS:", addpersec)
+		displayBought($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS2_pressed():
-	if diamant >= CPSRequirement2:
-		diamant -= CPSRequirement2
-		CPSRequirement2 = round(CPSRequirement2 * 1.3)
+	if diamant >= config.CPSRequirement2:
+		diamant -= config.CPSRequirement2
+		config.CPSRequirement2 = round(config.CPSRequirement2 * 1.3)
 		addpersec = addpersec + 5 #Add CPS.
-		var msg = str("+5 CPS [", CPSRequirement2, "]")
+		var msg = str("+5 CPS [", config.CPSRequirement2, "]")
 		$MenuBoutique/CPS2.text = msg # Combine multiple strings to show the required clicks.
-		$Label2.text = str("CPS:", addpersec)
-		displayBought(msg)
+		$CPS.text = str("CPS:", addpersec)
+		displayBought($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS3_pressed():
-	if score >= CPSRequirement3:
-		score -= CPSRequirement3
-		CPSRequirement3 = round(CPSRequirement3 * 1.2)
+	if score >= config.CPSRequirement3:
+		score -= config.CPSRequirement3
+		config.CPSRequirement3 = round(config.CPSRequirement3 * 1.2)
 		addpersec = addpersec + 20 #Add CPS.
-		var msg = str("+20 CPS [", CPSRequirement3, "]") 
+		var msg = str("+20 CPS [", config.CPSRequirement3, "]") 
 		$MenuBoutique/CPS3.text = msg#Combine multiple strings to show the required clicks.
-		$Label2.text = str("CPS:", addpersec)
-		displayBought(msg)
+		$CPS.text = str("CPS:", addpersec)
+		displayBought($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS4_pressed():
-	if score >= CPSRequirement4:
-		score -= CPSRequirement4
-		CPSRequirement4 = round(CPSRequirement4 * 1.1)
+	if score >= config.CPSRequirement4:
+		score -= config.CPSRequirement4
+		config.CPSRequirement4 = round(config.CPSRequirement4 * 1.1)
 		addpersec = addpersec + 125 #Add CPS.
-		var msg = str("+125 CPS [", CPSRequirement4, "]")
+		var msg = str("+125 CPS [", config.CPSRequirement4, "]")
 		$MenuBoutique/CPS4.text = msg #Combine multiple strings to show the required clicks.
-		$Label2.text = str("CPS:", addpersec)
-		displayBought(msg)
+		$CPS.text = str("CPS:", addpersec)
+		displayBought($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS5_pressed():
-	if score >= CPSRequirement5:
-		score -= CPSRequirement5
-		CPSRequirement5 = CPSRequirement5
+	if score >= config.CPSRequirement5:
+		score -= config.CPSRequirement5
+		config.CPSRequirement5 = config.CPSRequirement5
 		addpersec = addpersec + 500 #Add CPS.
-		var msg = str("+500 CPS [", CPSRequirement5, "]")
+		var msg = str("+500 CPS [", config.CPSRequirement5, "]")
 		$MenuBoutique/CPS5.text = msg #Combine multiple strings to show the required clicks.
-		$Label2.text = str("CPS:", addpersec)	
-		displayBought(msg)
+		$CPS.text = str("CPS:", addpersec)	
+		displayBought($MenuBoutique/BoughtCPS, msg)
 	
-func displayBought(text):
-	$Bought.text = text
-	var original_position = $Bought.position.y	
+func displayBought(bought, text):
+	var original_position = bought.position
 	for i in range(30):
-		$Bought.position.y -= 3
+		bought.position.y -= 3
 		await get_tree().create_timer(0.05).timeout
-	$Bought.text = ""
-	$Bought.position.y = original_position
+	bought.text = ""
+	bought.position = original_position
 	
 func _on_button_monster_button_down():
-	Input.set_custom_mouse_cursor(epee_onclick)
+	Input.set_custom_mouse_cursor(config.epee_onclick)
 	
 	score += add # Replace with function body.   
 	
@@ -221,11 +191,11 @@ func _on_button_monster_button_down():
 	particles.restart()
 	
 	updateLevel(add)	
-	$ClickMusic.play()		
-	$ProgressBar.value = currentLife
+	$Monster/HitSound.play()		
+	$BossLife.value = currentLife
 	
 func _on_button_monster_button_up():
-	Input.set_custom_mouse_cursor(epee_cursor)
+	Input.set_custom_mouse_cursor(config.epee_cursor)
 	
 func updateLevel(add):	
 	currentLife -= add	
@@ -234,16 +204,16 @@ func updateLevel(add):
 		level += 1
 		maxLife = round(maxLife*level)
 		currentLife = maxLife		
-		$ProgressBar.max_value = maxLife
+		$BossLife.max_value = maxLife
 		
-		if levels.any(func(lvl): return lvl.level == level):
-			$Background.texture = levels[level-1]["bg"]
-			$Monster.texture = levels[level-1]["mob"]
+		if config.levels.any(func(lvl): return lvl.level == level):
+			$Background.texture = config.levels[level-1]["bg"]
+			$Monster.texture = config.levels[level-1]["mob"]
 		else:
 			var rng = RandomNumberGenerator.new()
 			var random_level = rng.randf_range(0, 13)		
-			$Background.texture = levels[random_level]["bg"]
-			$Monster.texture = levels[random_level]["mob"]
+			$Background.texture = config.levels[random_level]["bg"]
+			$Monster.texture = config.levels[random_level]["mob"]
 		
 	$Level.text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)
 			
@@ -255,7 +225,7 @@ func _on_main_menu_button_pressed():
 	get_tree().change_scene_to_file("res://MainMenu.tscn") 
 	
 func _saveSave():
-	if withSave == false:
+	if config.withSave == false:
 		return
 		
 	var file = FileAccess.open("res://save.txt", FileAccess.READ_WRITE)
