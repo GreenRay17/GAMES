@@ -1,6 +1,6 @@
 extends Control
 
-const menu_options = preload("res://MenuOptions.tscn")
+const menu_options = preload("res://OptionsMenu.tscn")
 var menu_options_inst = null
 
 func _on_Button_pressed():

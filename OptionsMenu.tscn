@@ -1,18 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cuxa3on8jifhx"]
 
-[ext_resource type="Script" path="res://MenuOptions.gd" id="1_svb6u"]
+[ext_resource type="Script" path="res://OptionsMenu.gd" id="1_x2vss"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_247g3"]
 load_path = "res://.godot/imported/options 2.png-e1eaa494e127aa3ffb342617ada30afe.ctex"
 
-[node name="MenuOptions" type="Node2D"]
-script = ExtResource("1_svb6u")
+[node name="OptionsMenu" type="Node2D"]
+script = ExtResource("1_x2vss")
 
-[node name="MenuOptions" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 texture = SubResource("CompressedTexture2D_247g3")
 offset = Vector2(960, 540)
 
-[node name="VolumeMusic" type="Label" parent="MenuOptions"]
+[node name="VolumeMusic" type="Label" parent="Background"]
 offset_left = 449.0
 offset_top = 387.0
 offset_right = 637.0
@@ -20,7 +20,7 @@ offset_bottom = 410.0
 text = "Volume musique"
 metadata/_edit_use_anchors_ = true
 
-[node name="VolumeMusicBar" type="HSlider" parent="MenuOptions"]
+[node name="VolumeMusicBar" type="HSlider" parent="Background"]
 offset_left = 449.0
 offset_top = 420.0
 offset_right = 640.0
@@ -32,7 +32,7 @@ value = 100.0
 rounded = true
 metadata/_edit_use_anchors_ = true
 
-[node name="VolumeClick" type="Label" parent="MenuOptions"]
+[node name="VolumeClick" type="Label" parent="Background"]
 offset_left = 449.0
 offset_top = 445.0
 offset_right = 642.0
@@ -41,7 +41,7 @@ text = "Volume click
 "
 metadata/_edit_use_anchors_ = true
 
-[node name="VolumeClickBar" type="HSlider" parent="MenuOptions"]
+[node name="VolumeClickBar" type="HSlider" parent="Background"]
 offset_left = 449.0
 offset_top = 478.0
 offset_right = 639.0
@@ -52,7 +52,7 @@ mouse_force_pass_scroll_events = false
 value = 100.0
 metadata/_edit_use_anchors_ = true
 
-[node name="WindowMode" type="Label" parent="MenuOptions"]
+[node name="WindowMode" type="Label" parent="Background"]
 offset_left = 449.0
 offset_top = 502.0
 offset_right = 643.0
@@ -60,7 +60,7 @@ offset_bottom = 525.0
 text = "Mode plein-écran
 "
 
-[node name="WindowModeList" type="OptionButton" parent="MenuOptions"]
+[node name="WindowModeList" type="OptionButton" parent="Background"]
 offset_left = 449.0
 offset_top = 532.0
 offset_right = 641.0
@@ -77,7 +77,7 @@ popup/item_3/text = "Plein-écran"
 popup/item_3/id = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="SaveButton" type="Button" parent="MenuOptions"]
+[node name="SaveButton" type="Button" parent="Background"]
 offset_left = 870.0
 offset_top = 720.0
 offset_right = 1050.0
@@ -87,7 +87,7 @@ text = "Sauvegarder
 "
 metadata/_edit_use_anchors_ = true
 
-[connection signal="drag_ended" from="MenuOptions/VolumeMusicBar" to="." method="_on_volume_music_changed"]
-[connection signal="drag_ended" from="MenuOptions/VolumeClickBar" to="." method="_on_volume_click_changed"]
-[connection signal="item_selected" from="MenuOptions/WindowModeList" to="." method="_on_window_mode_selected"]
-[connection signal="button_down" from="MenuOptions/SaveButton" to="." method="_on_button_save_down"]
+[connection signal="drag_ended" from="Background/VolumeMusicBar" to="." method="_on_volume_music_changed"]
+[connection signal="drag_ended" from="Background/VolumeClickBar" to="." method="_on_volume_click_changed"]
+[connection signal="item_selected" from="Background/WindowModeList" to="." method="_on_window_mode_selected"]
+[connection signal="button_down" from="Background/SaveButton" to="." method="_on_button_save_down"]

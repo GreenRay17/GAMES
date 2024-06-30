@@ -1,5 +1,9 @@
 extends Control
 
+const preload_config = preload("res://configs.gd")
+var config = preload_config.new()
+const particles_scene = preload("res://EffectOnHit.tscn")
+
 var gold = 0
 var diamond = 0
 var add = 1
@@ -8,10 +12,6 @@ var addpersec = 1
 var level = 1
 var currentLife = 10
 var maxLife = 10
-
-const preload_config = preload("res://configs.gd")
-var config = preload_config.new()
-const particles_scene = preload("res://EffectOnHit.tscn")
 
 func _ready():	
 	await _getSettings()
@@ -27,6 +27,8 @@ func _getSettings():
 	
 	$Background/BackgroundMusic.volume_db = file.get_var()
 	$Monster/HitSound.volume_db = file.get_var()
+	# TODO gerer ça avant
+	DisplayServer.window_set_mode(file.get_var())
 
 func _getSave():
 	if config.withSave == false:
@@ -66,18 +68,18 @@ func _process(_delta):
 	_toggleCpsItem()
 	
 func _toggleCpcItem():		
-	$MenuBoutique/CPC1.disabled = gold >= config.CPCRequirement
-	$MenuBoutique/CPC2.disabled = gold >= config.CPCRequirement2
-	$MenuBoutique/CPC3.disabled = gold >= config.CPCRequirement3
-	$MenuBoutique/CPC4.disabled = gold >= config.CPCRequirement4
-	$MenuBoutique/CPC5.disabled = gold >= config.CPCRequirement5	
+	$MenuBoutique/CPC1.disabled = gold < config.CPCRequirement
+	$MenuBoutique/CPC2.disabled = gold < config.CPCRequirement2
+	$MenuBoutique/CPC3.disabled = gold < config.CPCRequirement3
+	$MenuBoutique/CPC4.disabled = gold < config.CPCRequirement4
+	$MenuBoutique/CPC5.disabled = gold < config.CPCRequirement5	
 		
 func _toggleCpsItem():
-	$MenuBoutique/CPS1.disabled = diamond >= config.CPSRequirement
-	$MenuBoutique/CPS2.disabled = diamond >= config.CPSRequirement2
-	$MenuBoutique/CPS3.disabled = diamond >= config.CPSRequirement3
-	$MenuBoutique/CPS4.disabled = diamond >= config.CPSRequirement4
-	$MenuBoutique/CPS5.disabled = diamond >= config.CPSRequirement5
+	$MenuBoutique/CPS1.disabled = diamond < config.CPSRequirement
+	$MenuBoutique/CPS2.disabled = diamond < config.CPSRequirement2
+	$MenuBoutique/CPS3.disabled = diamond < config.CPSRequirement3
+	$MenuBoutique/CPS4.disabled = diamond < config.CPSRequirement4
+	$MenuBoutique/CPS5.disabled = diamond < config.CPSRequirement5
 						
 func _input(event):
 	if (event is InputEventKey and not event.is_echo()):
@@ -197,7 +199,7 @@ func displayBought(bought, text):
 		await get_tree().create_timer(0.05).timeout
 	bought.text = ""
 	bought.position = original_position
-	
+
 func _on_button_monster_button_down():
 	Input.set_custom_mouse_cursor(config.epee_onclick)
 	
@@ -205,7 +207,8 @@ func _on_button_monster_button_down():
 	
 	var particles = particles_scene.instantiate()
 	add_child(particles)        
-	particles.restart()
+	particles.particle_finished.connect(_particle_finished.bind(particles))
+	particles.restart()  
 	
 	updateLevel(add)	
 	$Monster/HitSound.play()		
@@ -213,6 +216,9 @@ func _on_button_monster_button_down():
 	
 	_toggleCpcItem()
 	_toggleCpsItem()
+	
+func _particle_finished(particle):
+	remove_child(particle)
 	
 func _on_button_monster_button_up():
 	Input.set_custom_mouse_cursor(config.epee_cursor)

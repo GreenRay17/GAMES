@@ -4,4 +4,4 @@
 export_presets.cfg
 android/
 addons/
-.tmp
+*.tmp

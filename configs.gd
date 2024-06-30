@@ -32,3 +32,7 @@ const levels := [
 
 const epee_cursor := preload("res://Resources/Images/epee100.png")
 const epee_onclick := preload("res://Resources/Images/epee_onclick.png")
+
+@export var vol_music := 100	
+@export var vol_click := 100 
+@export var window_mode := DisplayServer.WINDOW_MODE_WINDOWED

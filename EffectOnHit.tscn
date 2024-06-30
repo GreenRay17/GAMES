@@ -27,7 +27,7 @@ scale_curve = SubResource("CurveTexture_kcd2s")
 color_ramp = SubResource("GradientTexture1D_k0ku0")
 turbulence_noise_strength = 5.13
 
-[node name="Effect_OnHit_Simple" type="GPUParticles2D"]
+[node name="EffectOnHit" type="GPUParticles2D"]
 position = Vector2(960, 744)
 emitting = false
 amount = 20
@@ -35,3 +35,5 @@ process_material = SubResource("ParticleProcessMaterial_0nkqw")
 one_shot = true
 explosiveness = 1.0
 script = ExtResource("1_2k68s")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
