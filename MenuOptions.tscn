@@ -8,51 +8,86 @@ load_path = "res://.godot/imported/options 2.png-e1eaa494e127aa3ffb342617ada30af
 [node name="MenuOptions" type="Node2D"]
 script = ExtResource("1_svb6u")
 
-[node name="MenuOptions" type="VBoxContainer" parent="."]
-layout_direction = 1
-offset_left = 88.0
-offset_top = 54.0
-offset_right = 1710.0
-offset_bottom = 606.0
-auto_translate = false
-theme_override_constants/separation = 3
-alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="MenuOptions"]
-position = Vector2(864, 288)
-scale = Vector2(0.744772, 0.744772)
+[node name="MenuOptions" type="Sprite2D" parent="."]
 texture = SubResource("CompressedTexture2D_247g3")
+offset = Vector2(960, 540)
 
-[node name="VolumeMusic" type="Button" parent="MenuOptions"]
-layout_mode = 2
+[node name="VolumeMusic" type="Label" parent="MenuOptions"]
+offset_left = 449.0
+offset_top = 387.0
+offset_right = 637.0
+offset_bottom = 410.0
 text = "Volume musique"
+metadata/_edit_use_anchors_ = true
 
 [node name="VolumeMusicBar" type="HSlider" parent="MenuOptions"]
-layout_mode = 2
+offset_left = 449.0
+offset_top = 420.0
+offset_right = 640.0
+offset_bottom = 436.0
 size_flags_vertical = 1
 mouse_filter = 1
 mouse_force_pass_scroll_events = false
 value = 100.0
 rounded = true
+metadata/_edit_use_anchors_ = true
 
-[node name="VolumeClick" type="Button" parent="MenuOptions"]
-layout_mode = 2
+[node name="VolumeClick" type="Label" parent="MenuOptions"]
+offset_left = 449.0
+offset_top = 445.0
+offset_right = 642.0
+offset_bottom = 468.0
 text = "Volume click
 "
+metadata/_edit_use_anchors_ = true
 
 [node name="VolumeClickBar" type="HSlider" parent="MenuOptions"]
-layout_mode = 2
+offset_left = 449.0
+offset_top = 478.0
+offset_right = 639.0
+offset_bottom = 494.0
 size_flags_vertical = 1
 mouse_filter = 1
 mouse_force_pass_scroll_events = false
 value = 100.0
+metadata/_edit_use_anchors_ = true
+
+[node name="WindowMode" type="Label" parent="MenuOptions"]
+offset_left = 449.0
+offset_top = 502.0
+offset_right = 643.0
+offset_bottom = 525.0
+text = "Mode plein-écran
+"
+
+[node name="WindowModeList" type="OptionButton" parent="MenuOptions"]
+offset_left = 449.0
+offset_top = 532.0
+offset_right = 641.0
+offset_bottom = 563.0
+item_count = 4
+selected = 3
+popup/item_0/text = "Fenêtré"
+popup/item_0/id = 0
+popup/item_1/text = "Minimisé"
+popup/item_1/id = 1
+popup/item_2/text = "Maximisé"
+popup/item_2/id = 2
+popup/item_3/text = "Plein-écran"
+popup/item_3/id = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="SaveButton" type="Button" parent="MenuOptions"]
-layout_mode = 2
+offset_left = 870.0
+offset_top = 720.0
+offset_right = 1050.0
+offset_bottom = 752.0
 mouse_filter = 1
 text = "Sauvegarder
 "
+metadata/_edit_use_anchors_ = true
 
 [connection signal="drag_ended" from="MenuOptions/VolumeMusicBar" to="." method="_on_volume_music_changed"]
 [connection signal="drag_ended" from="MenuOptions/VolumeClickBar" to="." method="_on_volume_click_changed"]
+[connection signal="item_selected" from="MenuOptions/WindowModeList" to="." method="_on_window_mode_selected"]
 [connection signal="button_down" from="MenuOptions/SaveButton" to="." method="_on_button_save_down"]
