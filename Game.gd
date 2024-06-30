@@ -43,7 +43,7 @@ func displayBought(text):
 		await get_tree().create_timer(0.05).timeout
 	$Bought.text = ""
 	$Bought.position.y = original_position
-		
+	
 	
 func _on_CPC1_pressed():
 	if score >= CPCRequirement:
@@ -161,17 +161,21 @@ func _on_button_pressed_monster():
 	add_child(particles)        
 	particles.restart()
 	updateLevel(add)	
-	#$AudioStreamPlayer2D.play()		
+	$ClickMusic.play()		
 	$ProgressBar.value = currentLife
 	
+func _getSettings():
+	var file = FileAccess.open("res://settings.txt", FileAccess.READ)
 	
-# Récupère la sauvegarde
-func _init():
-	_getSave()
+	$BackgroundMusic.volume_db = file.get_var()
+	$ClickMusic.volume_db = file.get_var()
 
 func _ready():	
-	updateLevel(1)
-	$ProgressBar.value = maxLife
+	await _getSave()
+	await _getSettings()
+	
+	updateLevel(0)
+	$ProgressBar.value = currentLife
 	$ProgressBar.max_value = maxLife
 	$ProgressBar.step = 1
 	
@@ -179,7 +183,8 @@ func _ready():
 # Sauvegarde à la fermeture
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		_saveSave()
+		await _saveSave()
+		get_tree().quit() #
 	
 func _getSave():	
 	if withSave == false:
@@ -188,27 +193,27 @@ func _getSave():
 	
 	var score_var = file.get_var()
 	if score_var != null:
-		score += score_var
+		score = score_var
 		
 	var add_var = file.get_var()
 	if add_var != null:
-		add += add_var		
+		add = add_var		
 		
 	var addpersec_var = file.get_var()
 	if addpersec_var != null:
-		addpersec += addpersec_var
+		addpersec = addpersec_var
 			
 	var level_var = file.get_var()
 	if level_var != null:
-		level += level_var
+		level = level_var
 		
 	var currentLife_var = file.get_var()
 	if currentLife_var != null:
-		currentLife += currentLife_var
+		currentLife = currentLife_var
 		
 	var maxLife_var = file.get_var()
 	if maxLife_var != null:
-		maxLife += maxLife_var
+		maxLife = maxLife_var
 	
 	file.close()
 	
@@ -224,7 +229,6 @@ func _saveSave():
 	file.store_var(currentLife)		
 	file.store_var(maxLife)
 	file.close()
-	get_tree().quit() #
 	
 const levels = [{"level":1, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
 {"level":2, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob3.png")},
@@ -273,6 +277,9 @@ func _input(event):
 		else:
 				Input.set_custom_mouse_cursor(epee_onclick)
 			
-
 func _on_control_button_down():
 	$VBoxContainer.visible = !$VBoxContainer.visible
+
+func _on_main_menu_button_pressed():
+	await _saveSave()
+	get_tree().change_scene_to_file("res://MainMenu.tscn") 
