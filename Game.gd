@@ -4,7 +4,7 @@ const preload_config = preload("res://configs.gd")
 var config = null
 const particles_scene = preload("res://EffectOnHit.tscn")
 
-const withSave := true
+const withSave := false
 
 var gold = 0
 var diamond = 0
@@ -12,8 +12,10 @@ var add = 1
 var addpersec = 1
 
 var level = 1
+var current_stage = 1
+var max_stage = 10
 var currentLife = 10
-var maxLife = 10
+var max_life = 10
 
 func _ready():	
 	await _getSettings()
@@ -21,19 +23,20 @@ func _ready():
 	
 	updateLevel(0)
 	$BossLife.value = currentLife
-	$BossLife.max_value = maxLife
+	$BossLife.max_value = max_life
 	$BossLife.step = 1
 	
 func _getSettings():
 	var file = FileAccess.open("res://settings.txt", FileAccess.READ)
 	
-	$Background/BackgroundMusic.volume_db = file.get_var()
+	#$Backgrounds/BackgroundLevel1/BackgroundMusic.volume_db = file.get_var()
 	$Monster/HitSound.volume_db = file.get_var()
 	# TODO gerer ça avant
 	DisplayServer.window_set_mode(file.get_var())
 
 func _getSave():
 	if withSave == false:
+		config = preload_config.new()
 		return
 		
 	var file = FileAccess.open("res://save.txt", FileAccess.READ)
@@ -58,13 +61,17 @@ func _getSave():
 	if level_var != null:
 		level = level_var
 		
+	var current_stage_var = file.get_var()
+	if current_stage_var != null:
+		current_stage = current_stage_var
+		
 	var currentLife_var = file.get_var()
 	if currentLife_var != null:
 		currentLife = currentLife_var
 		
-	var maxLife_var = file.get_var()
-	if maxLife_var != null:
-		maxLife = maxLife_var
+	var max_life_var = file.get_var()
+	if max_life_var != null:
+		max_life = max_life_var
 	
 	var config_var = file.get_var()
 	config =  dict_to_inst(config_var) if config_var != null else preload_config.new()
@@ -213,7 +220,7 @@ func displayBought(bought, text):
 func _on_button_monster_button_down():
 	Input.set_custom_mouse_cursor(config.epee_onclick)
 	
-	gold += add # Replace with function body.   
+	gold += add # Replace with function body.  
 	
 	var particles = particles_scene.instantiate()
 	add_child(particles)        
@@ -233,26 +240,37 @@ func _particle_finished(particle):
 func _on_button_monster_button_up():
 	Input.set_custom_mouse_cursor(config.epee_cursor)
 	
+var mob = 1
 func updateLevel(add):	
 	currentLife -= add	
 	if currentLife <= 0:
-		diamond += add
-		level += 1
-		maxLife = round(maxLife*level)
-		currentLife = maxLife		
-		$BossLife.max_value = maxLife
+		current_stage += 1	
+		diamond += add			
 		
-		if config.levels.any(func(lvl): return lvl.level == level):
-			$Background.texture = config.levels[level-1]["bg"]
-			$Monster.texture = config.levels[level-1]["mob"]
-		else:
-			var rng = RandomNumberGenerator.new()
-			var random_level = rng.randf_range(0, 13)		
-			$Background.texture = config.levels[random_level]["bg"]
-			$Monster.texture = config.levels[random_level]["mob"]
+		if current_stage > max_stage:
+			level += 1	
+			current_stage = 1			
+			get_node(config.levels[level-2]["bg"]).visible = false
+			get_node(config.levels[level-1]["bg"]).visible = true
+		elif current_stage == max_stage:
+			mob = 1
+			$Monster.texture = config.levels[level-1]["boss"]	
+			max_life = config.levels[level-1]["boss_life"]
 		
-	$Level.text = "Level " + str(level) + "\n" + str(currentLife) + "/" + str(maxLife)
+		if mob == 3:
+			mob = 1
+		else:						
+			mob += 1 
 			
+		if current_stage != max_stage:			
+			$Monster.texture = config.levels[level-1]["mob" + str(mob)]	 	
+			max_life = config.levels[level-1]["mob_life"]
+		
+		currentLife = max_life		
+		$BossLife.max_value = max_life
+		
+	$Level.text = "Level " + str(level) + "." + str(current_stage) + "\n" + str(currentLife) + "/" + str(max_life) 
+	
 func _on_logo_boutique_button_pressed():
 	$MenuBoutique.visible = !$MenuBoutique.visible
 
@@ -270,8 +288,9 @@ func _saveSave():
 	file.store_var(add)
 	file.store_var(addpersec)
 	file.store_var(level)
+	file.store_var(current_stage)
 	file.store_var(currentLife)		
-	file.store_var(maxLife)
+	file.store_var(max_life)
 	file.store_var(inst_to_dict(config))
 	file.close()
 	

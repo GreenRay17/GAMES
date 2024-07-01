@@ -13,19 +13,9 @@ class_name Config
 @export var CPSRequirement5 := 2500 
 
 const levels := [
-{"level":1, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob1.png")},
-{"level":2, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob3.png")},
-{"level":3, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob4.png")},
-{"level":4, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob5.png")},
-{"level":5, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob6.png")},
-{"level":6, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob7.png")},
-{"level":7, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob8.png")},
-{"level":8, "bg":preload("res://Resources/Images/FONDS/fond1.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob9.png")},
-{"level":9, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob10.png")},
-{"level":10, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob11.png")},
-{"level":11, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob12.png")},
-{"level":12, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob13.png")},
-{"level":13, "bg":preload("res://Resources/Images/FONDS/fond2.jpg"), "mob":preload("res://Resources/Images/CHARACTER/mob14.png")},
+{"level":1, "bg":"Levels/Level1", "mob1":preload("res://Resources/Images/CHARACTER/mob1.png"), "mob2":preload("res://Resources/Images/CHARACTER/mob2.png"), "mob3":preload("res://Resources/Images/CHARACTER/mob3.png"), "boss":preload("res://Resources/Images/CHARACTER/boss1.png"), "mob_life": 10, "boss_life": 978},
+{"level":2, "bg":"Levels/Level2", "mob1":preload("res://Resources/Images/CHARACTER/mob4.png"), "mob2":preload("res://Resources/Images/CHARACTER/mob5.png"), "mob3":preload("res://Resources/Images/CHARACTER/mob6.png"), "boss":preload("res://Resources/Images/CHARACTER/boss2.png"), "mob_life": 26, "boss_life": 6000}, 
+#{"level":3, "bg":"Levels/Level3", "mob1":preload("res://Resources/Images/CHARACTER/mob7.png"), "mob2":preload("res://Resources/Images/CHARACTER/mob8.png"), "mob3":preload("res://Resources/Images/CHARACTER/mob9.png"), "boss":preload("res://Resources/Images/CHARACTER/boss3.png"), "mob_life": 45, "boss_life": }, 
 ]
 
 const epee_cursor := preload("res://Resources/Images/epee100.png")
