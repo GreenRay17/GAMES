@@ -1,8 +1,10 @@
 extends Control
 
 const preload_config = preload("res://configs.gd")
-var config = preload_config.new()
+var config = null
 const particles_scene = preload("res://EffectOnHit.tscn")
+
+const withSave := true
 
 var gold = 0
 var diamond = 0
@@ -31,8 +33,9 @@ func _getSettings():
 	DisplayServer.window_set_mode(file.get_var())
 
 func _getSave():
-	if config.withSave == false:
+	if withSave == false:
 		return
+		
 	var file = FileAccess.open("res://save.txt", FileAccess.READ)
 	
 	var gold_var = file.get_var()
@@ -42,6 +45,10 @@ func _getSave():
 	var add_var = file.get_var()
 	if add_var != null:
 		add = add_var		
+		
+	var diamond_var = file.get_var()
+	if diamond_var != null:
+		diamond = diamond_var
 		
 	var addpersec_var = file.get_var()
 	if addpersec_var != null:
@@ -58,6 +65,9 @@ func _getSave():
 	var maxLife_var = file.get_var()
 	if maxLife_var != null:
 		maxLife = maxLife_var
+	
+	var config_var = file.get_var()
+	config =  dict_to_inst(config_var) if config_var != null else preload_config.new()
 	
 	file.close()
 	
@@ -251,16 +261,18 @@ func _on_main_menu_button_pressed():
 	get_tree().change_scene_to_file("res://MainMenu.tscn") 
 	
 func _saveSave():
-	if config.withSave == false:
+	if withSave == false:
 		return
 		
 	var file = FileAccess.open("res://save.txt", FileAccess.READ_WRITE)
 	file.store_var(gold)
+	file.store_var(diamond)
 	file.store_var(add)
 	file.store_var(addpersec)
 	file.store_var(level)
 	file.store_var(currentLife)		
 	file.store_var(maxLife)
+	file.store_var(inst_to_dict(config))
 	file.close()
 	
 # Sauvegarde à la fermeture

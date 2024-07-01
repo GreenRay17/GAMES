@@ -1,7 +1,5 @@
 class_name Config
 
-const withSave := false
-
 @export var CPCRequirement := 20 
 @export var CPCRequirement2 := 150 
 @export var CPCRequirement3 := 1400 
