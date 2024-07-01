@@ -1,0 +1,36 @@
+1 niveau = 10 mob tués 
+1 or par mob (+ un peu d'aléatoire)
+10 niveau = change de scène 
+
+
+Première amélioration + 1 CPC : 5 or (+3 par upgrade)
+Premier CPS +5 DPS : 50 or (5 dps) (+7 gold par upgrade)
+
+
+-> lvl 1 : 10hp 
+-> lvl 2 : 26hp
+-> lvl 3 : 45hp
+-> lvl 4 : 68hp
+
+-> lvl 5 BOSS : 978hp (30sec pour le tuer)
+
+
+-> Lvl 6 : 140 hp 
+-> lvl 7 : 200 hp
+-> lvl 8 : 290 hp
+-> lvl 9 : 410 hp 
+
+-> lvl 10 BOSS : 6000 hp (30sec pour le tuer)
+
+
+Tous les 10 lvl d'upgrade, un bonus, exemples:
+
+Au lvl 10 sur l'amélio des CPC pour 100 gold x2 sur les dégats
+
+
+Shop argent réel : 
+
+-> Auto clicker +10 clicks/sec     = 10 euro (100 diamant)
+-> x2 dégats tout le temps         = 5 euro (50 diamant)
+
+
