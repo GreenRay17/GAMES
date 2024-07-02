@@ -13,9 +13,26 @@ class_name Config
 @export var CPSRequirement5 := 2500 
 
 const levels := [
-{"level":1, "bg":"Levels/Level1", "mob1":preload("res://Resources/Images/CHARACTER/mob1.png"), "mob2":preload("res://Resources/Images/CHARACTER/mob2.png"), "mob3":preload("res://Resources/Images/CHARACTER/mob3.png"), "boss":preload("res://Resources/Images/CHARACTER/boss1.png"), "mob_life": 10, "boss_life": 978},
-{"level":2, "bg":"Levels/Level2", "mob1":preload("res://Resources/Images/CHARACTER/mob4.png"), "mob2":preload("res://Resources/Images/CHARACTER/mob5.png"), "mob3":preload("res://Resources/Images/CHARACTER/mob6.png"), "boss":preload("res://Resources/Images/CHARACTER/boss2.png"), "mob_life": 26, "boss_life": 6000}, 
-#{"level":3, "bg":"Levels/Level3", "mob1":preload("res://Resources/Images/CHARACTER/mob7.png"), "mob2":preload("res://Resources/Images/CHARACTER/mob8.png"), "mob3":preload("res://Resources/Images/CHARACTER/mob9.png"), "boss":preload("res://Resources/Images/CHARACTER/boss3.png"), "mob_life": 45, "boss_life": }, 
+{
+	"level": 1, 
+	"bg": "Levels/Level1",
+	"mob1": preload("res://Resources/Images/CHARACTER/mob1.png"), 
+	"mob2": preload("res://Resources/Images/CHARACTER/mob2.png"),
+	"mob3": preload("res://Resources/Images/CHARACTER/mob3.png"), 
+	"boss": preload("res://Resources/Images/CHARACTER/boss1.png"),
+	"mob_life": 1,
+	"boss_life": 1 #10,978
+}, 
+{
+	"level":2, 
+	"bg": "Levels/Level2",
+	"mob1": preload("res://Resources/Images/CHARACTER/mob4.png"), 
+	"mob2": preload("res://Resources/Images/CHARACTER/mob5.png"), 
+	"mob3": preload("res://Resources/Images/CHARACTER/mob6.png"),
+	"boss": preload("res://Resources/Images/CHARACTER/boss2.png"), 
+	"mob_life": 26,
+	"boss_life": 6000
+},
 ]
 
 const epee_cursor := preload("res://Resources/Images/epee100.png")

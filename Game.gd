@@ -9,20 +9,20 @@ const withSave := false
 var gold = 0
 var diamond = 0
 var add = 1
-var addpersec = 1
+var addpersec = 0
 
 var level = 1
 var current_stage = 1
 var max_stage = 10
-var currentLife = 10
-var max_life = 10
+var current_life = 1
+var max_life = 5
 
 func _ready():	
 	await _getSettings()
 	await _getSave()
 	
 	updateLevel(0)
-	$BossLife.value = currentLife
+	$BossLife.value = current_life
 	$BossLife.max_value = max_life
 	$BossLife.step = 1
 	
@@ -65,9 +65,9 @@ func _getSave():
 	if current_stage_var != null:
 		current_stage = current_stage_var
 		
-	var currentLife_var = file.get_var()
-	if currentLife_var != null:
-		currentLife = currentLife_var
+	var current_life_var = file.get_var()
+	if current_life_var != null:
+		current_life = current_life_var
 		
 	var max_life_var = file.get_var()
 	if max_life_var != null:
@@ -106,7 +106,7 @@ func _input(event):
 func _on_Timer_timeout():
 	gold += addpersec #After the Timer resets, add the add per second to the gold.
 	updateLevel(addpersec)	
-	$BossLife.value = currentLife
+	$BossLife.value = current_life
 		
 func _on_CPC1_pressed():
 	if gold >= config.CPCRequirement:
@@ -116,7 +116,7 @@ func _on_CPC1_pressed():
 		var msg = str("+1 CPC [", config.CPCRequirement, " GOLD]")
 		$MenuBoutique/CPC1.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)
-		displayBought($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC, msg)
 
 func _on_CPC2_pressed():
 	if gold >= config.CPCRequirement2:
@@ -126,7 +126,7 @@ func _on_CPC2_pressed():
 		var msg = str("+5 CPC [", config.CPCRequirement2, " GOLD]")
 		$MenuBoutique/CPC2.text = msg#Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)
-		displayBought($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC, msg)
 	
 func _on_CPC3_pressed():
 	if gold >= config.CPCRequirement3:
@@ -136,7 +136,7 @@ func _on_CPC3_pressed():
 		var msg = str("+20 CPC [", config.CPCRequirement3, " GOLD]")
 		$MenuBoutique/CPC3.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)
-		displayBought($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC, msg)
 
 func _on_CPC4_pressed():
 	if gold >= config.CPCRequirement4:
@@ -146,7 +146,7 @@ func _on_CPC4_pressed():
 		var msg = str("+125 CPC [", config.CPCRequirement4, " GOLD]")
 		$MenuBoutique/CPC4.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)		
-		displayBought($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC, msg)
 	
 func _on_CPC5_pressed():
 	if gold >= config.CPCRequirement5:
@@ -156,7 +156,7 @@ func _on_CPC5_pressed():
 		var msg = str("+500 CPC [", config.CPCRequirement5, " GOLD]")
 		$MenuBoutique/CPC5.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)	
-		displayBought($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC, msg)
 		
 func _on_CPS1_pressed():
 	if diamond >= config.CPSRequirement:
@@ -166,7 +166,7 @@ func _on_CPS1_pressed():
 		var msg = str("+1 CPS [", config.CPSRequirement, " DIAMOND]") 
 		$MenuBoutique/CPS1.text = msg#Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		displayBought($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS2_pressed():
 	if diamond >= config.CPSRequirement2:
@@ -176,7 +176,7 @@ func _on_CPS2_pressed():
 		var msg = str("+5 CPS [", config.CPSRequirement2, " DIAMOND]")
 		$MenuBoutique/CPS2.text = msg # Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		displayBought($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS3_pressed():
 	if gold >= config.CPSRequirement3:
@@ -186,7 +186,7 @@ func _on_CPS3_pressed():
 		var msg = str("+20 CPS [", config.CPSRequirement3, " DIAMOND]") 
 		$MenuBoutique/CPS3.text = msg#Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		displayBought($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS4_pressed():
 	if gold >= config.CPSRequirement4:
@@ -196,7 +196,7 @@ func _on_CPS4_pressed():
 		var msg = str("+125 CPS [", config.CPSRequirement4, " DIAMOND]")
 		$MenuBoutique/CPS4.text = msg #Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		displayBought($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS, msg)
 
 func _on_CPS5_pressed():
 	if gold >= config.CPSRequirement5:
@@ -206,21 +206,19 @@ func _on_CPS5_pressed():
 		var msg = str("+500 CPS [", config.CPSRequirement5, " DIAMOND]")
 		$MenuBoutique/CPS5.text = msg #Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)	
-		displayBought($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS, msg)
 	
-func displayBought(bought, text):
-	bought.text = text
-	var original_position = bought.position
+func textHover(node, text):
+	node.text = text
+	var original_position = node.position
 	for i in range(30):
-		bought.position.y -= 3
+		node.position.y -= 3
 		await get_tree().create_timer(0.05).timeout
-	bought.text = ""
-	bought.position = original_position
+	node.text = ""
+	node.position = original_position
 
 func _on_button_monster_button_down():
 	Input.set_custom_mouse_cursor(config.epee_onclick)
-	
-	gold += add # Replace with function body.  
 	
 	var particles = particles_scene.instantiate()
 	add_child(particles)        
@@ -229,7 +227,7 @@ func _on_button_monster_button_down():
 	
 	updateLevel(add)	
 	$Monster/HitSound.play()		
-	$BossLife.value = currentLife
+	$BossLife.value = current_life
 	
 	_toggleCpcItem()
 	_toggleCpsItem()
@@ -242,34 +240,52 @@ func _on_button_monster_button_up():
 	
 var mob = 1
 func updateLevel(add):	
-	currentLife -= add	
-	if currentLife <= 0:
+	current_life -= add	
+	if current_life <= 0:
 		current_stage += 1	
-		diamond += add			
 		
-		if current_stage > max_stage:
-			level += 1	
-			current_stage = 1			
-			get_node(config.levels[level-2]["bg"]).visible = false
-			get_node(config.levels[level-1]["bg"]).visible = true
-		elif current_stage == max_stage:
-			mob = 1
-			$Monster.texture = config.levels[level-1]["boss"]	
-			max_life = config.levels[level-1]["boss_life"]
-		
-		if mob == 3:
-			mob = 1
-		else:						
-			mob += 1 
-			
-		if current_stage != max_stage:			
+		# mob 
+		if current_stage < max_stage:			
 			$Monster.texture = config.levels[level-1]["mob" + str(mob)]	 	
 			max_life = config.levels[level-1]["mob_life"]
+		# on va tuer le boss
+		elif current_stage == max_stage:
+			#mob = 1
+			$Monster.texture = config.levels[level-1]["boss"]	
+			max_life = config.levels[level-1]["boss_life"]
+		# on a tué le boss
+		elif current_stage > max_stage:
+			level += 1	
+			current_stage = 1		
+			diamond += add			
+			
+			var new_earned = $Earned.duplicate();
+			add_child(new_earned)
+			new_earned.label_settings.font_color = Color(0, 0, 255)
+			await textHover(new_earned, "+"+ str(add))
+			remove_child(new_earned)
+			
+			get_node(config.levels[level-2]["bg"]).visible = false
+			get_node(config.levels[level-1]["bg"]).visible = true
+			
+		# switch entre les mob1/2/3
+		if mob == 3:
+			mob = 1
+		elif current_stage != max_stage:						
+			mob += 1 		
+							
+			gold += add # Replace with function body.  
+			
+			var new_earned = $Earned.duplicate();
+			add_child(new_earned)
+			new_earned.label_settings.font_color = Color(255, 255, 0)
+			await textHover(new_earned, "+"+ str(add))
+			remove_child(new_earned)
 		
-		currentLife = max_life		
+		current_life = max_life		
 		$BossLife.max_value = max_life
 		
-	$Level.text = "Level " + str(level) + "." + str(current_stage) + "\n" + str(currentLife) + "/" + str(max_life) 
+	$Level.text = "Level " + str(level) + "." + str(current_stage) + "\n" + str(current_life) + "/" + str(max_life) 
 	
 func _on_logo_boutique_button_pressed():
 	$MenuBoutique.visible = !$MenuBoutique.visible
@@ -289,7 +305,7 @@ func _saveSave():
 	file.store_var(addpersec)
 	file.store_var(level)
 	file.store_var(current_stage)
-	file.store_var(currentLife)		
+	file.store_var(current_life)		
 	file.store_var(max_life)
 	file.store_var(inst_to_dict(config))
 	file.close()
