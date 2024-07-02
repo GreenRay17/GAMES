@@ -20,20 +20,53 @@ const levels := [
 	"mob2": preload("res://Resources/Images/CHARACTER/mob2.png"),
 	"mob3": preload("res://Resources/Images/CHARACTER/mob3.png"), 
 	"boss": preload("res://Resources/Images/CHARACTER/boss1.png"),
-	"mob_life": 1,
-	"boss_life": 1 #10,978
+	"mob_life": 10,
+	"boss_life": 978 
 }, 
 {
-	"level":2, 
-	"bg": "Levels/Level2",
+	"level": 2, 
+	"bg": "Levels/Level1",
 	"mob1": preload("res://Resources/Images/CHARACTER/mob4.png"), 
 	"mob2": preload("res://Resources/Images/CHARACTER/mob5.png"), 
 	"mob3": preload("res://Resources/Images/CHARACTER/mob6.png"),
 	"boss": preload("res://Resources/Images/CHARACTER/boss2.png"), 
-	"mob_life": 26,
+	"mob_life": 28,
 	"boss_life": 6000
 },
+{
+	"level": 3, 
+	"bg": "Levels/Level1",
+	"mob1": preload("res://Resources/Images/CHARACTER/mob4.png"), 
+	"mob2": preload("res://Resources/Images/CHARACTER/mob5.png"), 
+	"mob3": preload("res://Resources/Images/CHARACTER/mob6.png"),
+	"boss": preload("res://Resources/Images/CHARACTER/boss2.png"), 
+	"mob_life": 47,
+	"boss_life": 36254
+},
+{
+	"level": 4, 
+	"bg": "Levels/Level1",
+	"mob1": preload("res://Resources/Images/CHARACTER/mob4.png"), 
+	"mob2": preload("res://Resources/Images/CHARACTER/mob5.png"), 
+	"mob3": preload("res://Resources/Images/CHARACTER/mob6.png"),
+	"boss": preload("res://Resources/Images/CHARACTER/boss2.png"), 
+	"mob_life": 70,
+	"boss_life": 198532
+},
+{
+	"level": 5, 
+	"bg": "Levels/Level1",
+	"mob1": preload("res://Resources/Images/CHARACTER/mob4.png"), 
+	"mob2": preload("res://Resources/Images/CHARACTER/mob5.png"), 
+	"mob3": preload("res://Resources/Images/CHARACTER/mob6.png"),
+	"boss": preload("res://Resources/Images/CHARACTER/boss2.png"), 
+	"mob_life": 140,
+	"boss_life": 856896
+},
 ]
+
+const max_stage = 10
+const boss_stage = 50
 
 const epee_cursor := preload("res://Resources/Images/epee100.png")
 const epee_onclick := preload("res://Resources/Images/epee_onclick.png")

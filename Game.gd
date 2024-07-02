@@ -13,9 +13,8 @@ var addpersec = 0
 
 var level = 1
 var current_stage = 1
-var max_stage = 10
-var current_life = 1
-var max_life = 5
+var current_life = 10
+var max_life = 10
 
 func _ready():	
 	await _getSettings()
@@ -116,7 +115,7 @@ func _on_CPC1_pressed():
 		var msg = str("+1 CPC [", config.CPCRequirement, " GOLD]")
 		$MenuBoutique/CPC1.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)
-		textHover($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC.duplicate(), msg)
 
 func _on_CPC2_pressed():
 	if gold >= config.CPCRequirement2:
@@ -126,7 +125,7 @@ func _on_CPC2_pressed():
 		var msg = str("+5 CPC [", config.CPCRequirement2, " GOLD]")
 		$MenuBoutique/CPC2.text = msg#Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)
-		textHover($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC.duplicate(), msg)
 	
 func _on_CPC3_pressed():
 	if gold >= config.CPCRequirement3:
@@ -136,7 +135,7 @@ func _on_CPC3_pressed():
 		var msg = str("+20 CPC [", config.CPCRequirement3, " GOLD]")
 		$MenuBoutique/CPC3.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)
-		textHover($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC.duplicate(), msg)
 
 func _on_CPC4_pressed():
 	if gold >= config.CPCRequirement4:
@@ -146,7 +145,7 @@ func _on_CPC4_pressed():
 		var msg = str("+125 CPC [", config.CPCRequirement4, " GOLD]")
 		$MenuBoutique/CPC4.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)		
-		textHover($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC.duplicate(), msg)
 	
 func _on_CPC5_pressed():
 	if gold >= config.CPCRequirement5:
@@ -156,7 +155,7 @@ func _on_CPC5_pressed():
 		var msg = str("+500 CPC [", config.CPCRequirement5, " GOLD]")
 		$MenuBoutique/CPC5.text = msg #Combine multiple strings to show the required clicks.
 		$CPC.text = str("CPC:", add)	
-		textHover($MenuBoutique/BoughtCPC, msg)
+		textHover($MenuBoutique/BoughtCPC.duplicate(), msg)
 		
 func _on_CPS1_pressed():
 	if diamond >= config.CPSRequirement:
@@ -166,7 +165,7 @@ func _on_CPS1_pressed():
 		var msg = str("+1 CPS [", config.CPSRequirement, " DIAMOND]") 
 		$MenuBoutique/CPS1.text = msg#Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		textHover($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS2_pressed():
 	if diamond >= config.CPSRequirement2:
@@ -176,7 +175,7 @@ func _on_CPS2_pressed():
 		var msg = str("+5 CPS [", config.CPSRequirement2, " DIAMOND]")
 		$MenuBoutique/CPS2.text = msg # Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		textHover($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS3_pressed():
 	if gold >= config.CPSRequirement3:
@@ -186,7 +185,7 @@ func _on_CPS3_pressed():
 		var msg = str("+20 CPS [", config.CPSRequirement3, " DIAMOND]") 
 		$MenuBoutique/CPS3.text = msg#Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		textHover($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS4_pressed():
 	if gold >= config.CPSRequirement4:
@@ -196,7 +195,7 @@ func _on_CPS4_pressed():
 		var msg = str("+125 CPS [", config.CPSRequirement4, " DIAMOND]")
 		$MenuBoutique/CPS4.text = msg #Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)
-		textHover($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS5_pressed():
 	if gold >= config.CPSRequirement5:
@@ -206,7 +205,7 @@ func _on_CPS5_pressed():
 		var msg = str("+500 CPS [", config.CPSRequirement5, " DIAMOND]")
 		$MenuBoutique/CPS5.text = msg #Combine multiple strings to show the required clicks.
 		$CPS.text = str("CPS:", addpersec)	
-		textHover($MenuBoutique/BoughtCPS, msg)
+		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 	
 func textHover(node, text):
 	node.text = text
@@ -216,6 +215,7 @@ func textHover(node, text):
 		await get_tree().create_timer(0.05).timeout
 	node.text = ""
 	node.position = original_position
+	remove_child(node)
 
 func _on_button_monster_button_down():
 	Input.set_custom_mouse_cursor(config.epee_onclick)
@@ -243,18 +243,27 @@ func updateLevel(add):
 	current_life -= add	
 	if current_life <= 0:
 		current_stage += 1	
+		gold += add 
 		
 		# mob 
-		if current_stage < max_stage:			
+		if current_stage < config.boss_stage:
+			mob += 1 		
+			
 			$Monster.texture = config.levels[level-1]["mob" + str(mob)]	 	
-			max_life = config.levels[level-1]["mob_life"]
+			max_life = config.levels[level-1]["mob_life"]			
+			
+			var new_earned = $Earned.duplicate();
+			add_child(new_earned)
+			new_earned.label_settings.font_color = Color(255, 255, 0)
+			textHover(new_earned, "+"+ str(add))
 		# on va tuer le boss
-		elif current_stage == max_stage:
+		elif current_stage == config.boss_stage:
 			#mob = 1
 			$Monster.texture = config.levels[level-1]["boss"]	
 			max_life = config.levels[level-1]["boss_life"]
-		# on a tué le boss
-		elif current_stage > max_stage:
+			
+		# on a tué le boss		
+		if current_stage > config.max_stage:
 			level += 1	
 			current_stage = 1		
 			diamond += add			
@@ -262,8 +271,7 @@ func updateLevel(add):
 			var new_earned = $Earned.duplicate();
 			add_child(new_earned)
 			new_earned.label_settings.font_color = Color(0, 0, 255)
-			await textHover(new_earned, "+"+ str(add))
-			remove_child(new_earned)
+			textHover(new_earned, "+"+ str(add))
 			
 			get_node(config.levels[level-2]["bg"]).visible = false
 			get_node(config.levels[level-1]["bg"]).visible = true
@@ -271,16 +279,6 @@ func updateLevel(add):
 		# switch entre les mob1/2/3
 		if mob == 3:
 			mob = 1
-		elif current_stage != max_stage:						
-			mob += 1 		
-							
-			gold += add # Replace with function body.  
-			
-			var new_earned = $Earned.duplicate();
-			add_child(new_earned)
-			new_earned.label_settings.font_color = Color(255, 255, 0)
-			await textHover(new_earned, "+"+ str(add))
-			remove_child(new_earned)
 		
 		current_life = max_life		
 		$BossLife.max_value = max_life
