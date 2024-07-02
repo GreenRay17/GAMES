@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1x57mvtywwo8"
-path="res://.godot/imported/Orc 1.png-53ecf24f0bf0bcb67eb8b30ddc0bcdc5.ctex"
+uid="uid://cq44wl8duyusc"
+path="res://.godot/imported/Loup 2.png-d62379526e720597a5efb7f6ffba42eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Orc 1.png"
-dest_files=["res://.godot/imported/Orc 1.png-53ecf24f0bf0bcb67eb8b30ddc0bcdc5.ctex"]
+source_file="res://Resources/MONSTRES/Loup 2.png"
+dest_files=["res://.godot/imported/Loup 2.png-d62379526e720597a5efb7f6ffba42eb.ctex"]
 
 [params]
 

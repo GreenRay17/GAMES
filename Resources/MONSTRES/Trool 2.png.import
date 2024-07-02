@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gy6a0q7jj616"
-path="res://.godot/imported/Demon 2.png-5a155c3991870dc29d24eec548c21a37.ctex"
+uid="uid://cc8mlwk3ee75c"
+path="res://.godot/imported/Trool 2.png-e4fe8ab253e041f92a826d51e6f8084a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Demon 2.png"
-dest_files=["res://.godot/imported/Demon 2.png-5a155c3991870dc29d24eec548c21a37.ctex"]
+source_file="res://Resources/MONSTRES/Trool 2.png"
+dest_files=["res://.godot/imported/Trool 2.png-e4fe8ab253e041f92a826d51e6f8084a.ctex"]
 
 [params]
 

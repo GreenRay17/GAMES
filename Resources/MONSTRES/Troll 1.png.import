@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq44wl8duyusc"
-path="res://.godot/imported/Loup 2.png-1503aaebe61109f691246156cbbbe0c2.ctex"
+uid="uid://ujbq35u0v7td"
+path="res://.godot/imported/Troll 1.png-a6dc779c524cc69c271d19243e903de6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Loup 2.png"
-dest_files=["res://.godot/imported/Loup 2.png-1503aaebe61109f691246156cbbbe0c2.ctex"]
+source_file="res://Resources/MONSTRES/Troll 1.png"
+dest_files=["res://.godot/imported/Troll 1.png-a6dc779c524cc69c271d19243e903de6.ctex"]
 
 [params]
 

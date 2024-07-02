@@ -21,9 +21,12 @@ func _ready():
 	await _getSave()
 	
 	updateLevel(0)
-	$BossLife.value = current_life
-	$BossLife.max_value = max_life
-	$BossLife.step = 1
+	$MobLifePercent.value = current_life
+	$MobLifePercent.max_value = max_life
+	$MobLifePercent.step = 1
+	
+	# TODo à fixer on peut etre sur un boss
+	$Monster.texture = config.levels[level-1]["mob1"]	 
 	
 func _getSettings():
 	var file = FileAccess.open("res://settings.txt", FileAccess.READ)
@@ -105,7 +108,7 @@ func _input(event):
 func _on_Timer_timeout():
 	gold += addpersec #After the Timer resets, add the add per second to the gold.
 	updateLevel(addpersec)	
-	$BossLife.value = current_life
+	$MobLifePercent.value = current_life
 		
 func _on_CPC1_pressed():
 	if gold >= config.CPCRequirement:
@@ -227,7 +230,7 @@ func _on_button_monster_button_down():
 	
 	updateLevel(add)	
 	$Monster/HitSound.play()		
-	$BossLife.value = current_life
+	$MobLifePercent.value = current_life
 	
 	_toggleCpcItem()
 	_toggleCpsItem()
@@ -241,15 +244,16 @@ func _on_button_monster_button_up():
 var mob = 1
 func updateLevel(add):	
 	current_life -= add	
+	
 	if current_life <= 0:
 		current_stage += 1	
 		gold += add 
 		
 		# mob 
-		if current_stage < config.boss_stage:
+		if current_stage < config.boss_stage:			
 			mob += 1 		
 			
-			$Monster.texture = config.levels[level-1]["mob" + str(mob)]	 	
+			$Monster.texture = config.levels[level-1]["mob" + str(mob-1)]	 	
 			max_life = config.levels[level-1]["mob_life"]			
 			
 			var new_earned = $Earned.duplicate();
@@ -277,13 +281,14 @@ func updateLevel(add):
 			get_node(config.levels[level-1]["bg"]).visible = true
 			
 		# switch entre les mob1/2/3
-		if mob == 3:
+		if mob == 4:
 			mob = 1
 		
 		current_life = max_life		
-		$BossLife.max_value = max_life
+		$MobLifePercent.max_value = max_life
 		
-	$Level.text = "Level " + str(level) + "." + str(current_stage) + "\n" + str(current_life) + "/" + str(max_life) 
+	$Level.text = "Level " + str(level) + "\n" + str(current_stage) + "/" + str(config.max_stage)
+	$MobLife.text = str(current_life) + "/" + str(max_life) 
 	
 func _on_logo_boutique_button_pressed():
 	$MenuBoutique.visible = !$MenuBoutique.visible

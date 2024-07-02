@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://om3bqbjhnd62"
-path="res://.godot/imported/Grizzly 2.png-6d1014271b4c4d682e73ec505588a142.ctex"
+uid="uid://dhtj5a2vn344m"
+path="res://.godot/imported/Druide 1.png-3546bab2904ab05cd383de7af4212bb9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Grizzly 2.png"
-dest_files=["res://.godot/imported/Grizzly 2.png-6d1014271b4c4d682e73ec505588a142.ctex"]
+source_file="res://Resources/MONSTRES/Druide 1.png"
+dest_files=["res://.godot/imported/Druide 1.png-3546bab2904ab05cd383de7af4212bb9.ctex"]
 
 [params]
 

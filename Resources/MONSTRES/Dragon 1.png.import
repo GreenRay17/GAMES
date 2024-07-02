@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cso15tyti6vwo"
-path="res://.godot/imported/Druide 2.png-290902b2a04d9288cc7d53cb7fa5bbf5.ctex"
+uid="uid://hrq24byj51jf"
+path="res://.godot/imported/Dragon 1.png-ad2b535c86a04834484db85f5aa9c097.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Druide 2.png"
-dest_files=["res://.godot/imported/Druide 2.png-290902b2a04d9288cc7d53cb7fa5bbf5.ctex"]
+source_file="res://Resources/MONSTRES/Dragon 1.png"
+dest_files=["res://.godot/imported/Dragon 1.png-ad2b535c86a04834484db85f5aa9c097.ctex"]
 
 [params]
 

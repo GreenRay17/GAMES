@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4a56npbf57rh"
-path="res://.godot/imported/Loup 1.png-6a0c542dc5328de7e9f1836604b18a6a.ctex"
+uid="uid://bf1x5ncn4kxy7"
+path="res://.godot/imported/Dragon 2.png-f9eb40ce4129f74198b565e69046b828.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Loup 1.png"
-dest_files=["res://.godot/imported/Loup 1.png-6a0c542dc5328de7e9f1836604b18a6a.ctex"]
+source_file="res://Resources/MONSTRES/Dragon 2.png"
+dest_files=["res://.godot/imported/Dragon 2.png-f9eb40ce4129f74198b565e69046b828.ctex"]
 
 [params]
 

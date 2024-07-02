@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk6iohdwfmrcj"
-path="res://.godot/imported/Demon 1.png-457eb8b031c97b8204cd45947d018093.ctex"
+uid="uid://dn48cpoby1e42"
+path="res://.godot/imported/BOSS 1.png-625e0f1f69e5e01ecf1d856221ad78a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Demon 1.png"
-dest_files=["res://.godot/imported/Demon 1.png-457eb8b031c97b8204cd45947d018093.ctex"]
+source_file="res://Resources/MONSTRES/BOSS 1.png"
+dest_files=["res://.godot/imported/BOSS 1.png-625e0f1f69e5e01ecf1d856221ad78a0.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhtj5a2vn344m"
-path="res://.godot/imported/Druide 1.png-3059e0aa7174d3e86b1b3d8ec02a8fb3.ctex"
+uid="uid://b52224eis7qgs"
+path="res://.godot/imported/Nature 1.png-035f9d8dd3339d647b7bf849ec1cebdf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Druide 1.png"
-dest_files=["res://.godot/imported/Druide 1.png-3059e0aa7174d3e86b1b3d8ec02a8fb3.ctex"]
+source_file="res://Resources/MONSTRES/Nature 1.png"
+dest_files=["res://.godot/imported/Nature 1.png-035f9d8dd3339d647b7bf849ec1cebdf.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf1x5ncn4kxy7"
-path="res://.godot/imported/Dragon 2.png-52b2f35e350eaebbb8ac571017523223.ctex"
+uid="uid://31jy1xergcc3"
+path="res://.godot/imported/Grizzly 1.png-28b0fe30a426ccb1f823e298550e7373.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MONSTRES/Dragon 2.png"
-dest_files=["res://.godot/imported/Dragon 2.png-52b2f35e350eaebbb8ac571017523223.ctex"]
+source_file="res://Resources/MONSTRES/Grizzly 1.png"
+dest_files=["res://.godot/imported/Grizzly 1.png-28b0fe30a426ccb1f823e298550e7373.ctex"]
 
 [params]
 
