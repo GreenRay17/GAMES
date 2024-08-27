@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bisbuk85hoorq"]
 
-[ext_resource type="Texture2D" uid="uid://cdru61ntlqx7a" path="res://Resources/background/fdf015a31babcc8b26e2637e7d9629e9.jpg" id="1_xceke"]
-[ext_resource type="Texture2D" uid="uid://ddeq540ppo5yy" path="res://Resources/Pieces/fotor-2024062616421.png" id="2_dgkh7"]
-[ext_resource type="Texture2D" uid="uid://rnjkbocpnjyn" path="res://Resources/Pieces/fotor-20240626161110.png" id="3_06otu"]
-[ext_resource type="Texture2D" uid="uid://22h5wiqhpvq2" path="res://logo boutique.png" id="5_l7o1i"]
+[ext_resource type="Texture2D" uid="uid://csecryb7uaxme" path="res://Resources/Images/FONDS/fond2.jpg" id="1_xceke"]
+[ext_resource type="Texture2D" uid="uid://c4nm7opi3conn" path="res://Resources/Pieces/fotor-2024062616421.png" id="2_dgkh7"]
+[ext_resource type="Texture2D" uid="uid://dwrko16g53ife" path="res://Resources/Pieces/fotor-20240626161110.png" id="3_06otu"]
+[ext_resource type="Texture2D" uid="uid://22h5wiqhpvq2" path="res://Resources/logo boutique.png" id="5_l7o1i"]
 [ext_resource type="PackedScene" uid="uid://beirlgwynxkvo" path="res://Game.tscn" id="5_n0man"]
 
 [sub_resource type="SystemFont" id="SystemFont_x7a2d"]
