@@ -4,7 +4,7 @@ const preload_config = preload("res://configs.gd")
 var config = null
 const particles_scene = preload("res://EffectOnHit.tscn")
 
-const withSave := true
+const withSave := false
 
 var gold = 0
 var diamond = 0
@@ -82,11 +82,51 @@ func _getSave():
 	file.close()
 	
 func _process(_delta):
-	$GoldValue.text = str(gold) #Change the text to the current gold every frame.	
+	$GoldValue.text = _get_highNumberDisplay(gold) #Change the text to the current gold every frame.    
 	_toggleCpcItem()
-	$DiamondValue.text = str(diamond)
+	$DiamondValue.text = _get_highNumberDisplay(diamond)
 	_toggleCpsItem()
 	
+func _get_highNumberDisplay(valeur):
+	var suffix = ""
+	if valeur > pow(10,3)-1:
+		suffix = "K."
+	elif valeur > pow(10,6)-1:
+		suffix = "M."
+	elif valeur > pow(10,9)-1:
+		suffix = "B."
+	elif valeur > pow(10,12)-1:
+		suffix = "T."
+	elif valeur > pow(10,15)-1:
+		suffix = "Qa."
+	elif valeur > pow(10,18)-1:
+		suffix = "Qi."
+	elif valeur > pow(10,21)-1:
+		suffix = "Sx."
+	elif valeur > pow(10,24)-1:
+		suffix = "Sp."
+	elif valeur > pow(10,27)-1:
+		suffix = "O."
+	elif valeur > pow(10,30)-1:
+		suffix = "N"
+	elif valeur > pow(10,33)-1:
+		suffix = "D."
+	elif valeur > pow(10,36)-1:
+		suffix = "U."
+		
+	var valeur_str = str(valeur)
+	var concatened_value = valeur_str[0];
+	if suffix != "":
+		concatened_value += ","
+	if len(valeur_str) > 1:
+		concatened_value += valeur_str[1]		
+	if len(valeur_str) > 2:
+		concatened_value += valeur_str[2]
+	if len(valeur_str) > 3:
+		concatened_value += valeur_str[3]
+		
+	return concatened_value+suffix
+
 func _toggleCpcItem():		
 	$MenuBoutique/CPC1.disabled = gold < config.CPCRequirement
 	$MenuBoutique/CPC2.disabled = gold < config.CPCRequirement2
