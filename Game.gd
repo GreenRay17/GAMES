@@ -4,7 +4,7 @@ const preload_config = preload("res://configs.gd")
 var config = null
 const particles_scene = preload("res://EffectOnHit.tscn")
 
-const withSave := false
+const withSave := true
 
 var gold = 0
 var diamond = 0
@@ -32,6 +32,7 @@ func _getSettings():
 	var file = FileAccess.open("res://settings.txt", FileAccess.READ)
 	
 	#$Backgrounds/BackgroundLevel1/BackgroundMusic.volume_db = file.get_var()
+	file.get_var() # NE PAS SUPPRIMER
 	$Monster/HitSound.volume_db = file.get_var()
 	# TODO gerer ça avant
 	DisplayServer.window_set_mode(file.get_var())
