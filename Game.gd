@@ -316,7 +316,12 @@ func updateLevel():
 			
 		# on a tué le boss		
 		if current_stage > config.max_stage:
-			level += 1	
+			# loop sur 5 levels
+			if level < 5:
+				level += 1	
+			else:
+				level = 1
+				
 			current_stage = 1		
 			diamond += addperboss			
 			
