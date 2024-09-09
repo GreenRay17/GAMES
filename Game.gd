@@ -10,6 +10,7 @@ var gold = 0
 var diamond = 0
 var add = 1
 var addpersec = 0
+var addperboss = 1
 
 var level = 1
 var current_stage = 1
@@ -20,10 +21,7 @@ func _ready():
 	await _getSettings()
 	await _getSave()
 	
-	updateLevel(0)
-	$MobLifePercent.value = current_life
-	$MobLifePercent.max_value = max_life
-	$MobLifePercent.step = 1
+	manageLevel(0)
 	
 	# TODo à fixer on peut etre sur un boss
 	$Monster.texture = config.levels[level-1]["mob1"]	 
@@ -81,43 +79,41 @@ func _getSave():
 	
 	file.close()
 	
-func _process(_delta):
-	$GoldValue.text = _get_highNumberDisplay(gold) #Change the text to the current gold every frame.    
-	_toggleCpcItem()
-	$DiamondValue.text = _get_highNumberDisplay(diamond)
-	_toggleCpsItem()
+#func _process(_delta):
+	#manageLevel(addpersec)
 	
 func _get_highNumberDisplay(valeur):
 	var suffix = ""
-	if valeur > pow(10,3)-1:
-		suffix = "K."
-	elif valeur > pow(10,6)-1:
-		suffix = "M."
-	elif valeur > pow(10,9)-1:
-		suffix = "B."
-	elif valeur > pow(10,12)-1:
-		suffix = "T."
-	elif valeur > pow(10,15)-1:
-		suffix = "Qa."
-	elif valeur > pow(10,18)-1:
-		suffix = "Qi."
-	elif valeur > pow(10,21)-1:
-		suffix = "Sx."
-	elif valeur > pow(10,24)-1:
-		suffix = "Sp."
-	elif valeur > pow(10,27)-1:
-		suffix = "O."
-	elif valeur > pow(10,30)-1:
-		suffix = "N"
+	
+	if valeur > pow(10,36)-1:
+		suffix = "U"		
 	elif valeur > pow(10,33)-1:
-		suffix = "D."
-	elif valeur > pow(10,36)-1:
-		suffix = "U."
+		suffix = "D"
+	elif valeur > pow(10,30)-1:
+		suffix = "N"		
+	elif valeur > pow(10,27)-1:
+		suffix = "O"
+	elif valeur > pow(10,24)-1:
+		suffix = "Sp"		
+	elif valeur > pow(10,21)-1:
+		suffix = "Sx"		
+	elif valeur > pow(10,18)-1:
+		suffix = "Qi"		
+	elif valeur > pow(10,15)-1:
+		suffix = "Qa"		
+	elif valeur > pow(10,12)-1:
+		suffix = "T"
+	elif valeur > pow(10,9)-1:
+		suffix = "B"		
+	elif valeur > pow(10,6)-1:
+		suffix = "M"
+	elif valeur > pow(10,3)-1:
+		suffix = "K"
 		
 	var valeur_str = str(valeur)
 	var concatened_value = valeur_str[0];
 	if suffix != "":
-		concatened_value += ","
+		concatened_value += "."
 	if len(valeur_str) > 1:
 		concatened_value += valeur_str[1]		
 	if len(valeur_str) > 2:
@@ -147,9 +143,7 @@ func _input(event):
 			$MenuBoutique.visible = !$MenuBoutique.visible
 			
 func _on_Timer_timeout():
-	gold += addpersec #After the Timer resets, add the add per second to the gold.
-	updateLevel(addpersec)	
-	$MobLifePercent.value = current_life
+	manageLevel(addpersec)	
 		
 func _on_CPC1_pressed():
 	if gold >= config.CPCRequirement:
@@ -269,12 +263,14 @@ func _on_button_monster_button_down():
 	particles.particle_finished.connect(_particle_finished.bind(particles))
 	particles.restart()  
 	
-	updateLevel(add)	
 	$Monster/HitSound.play()		
-	$MobLifePercent.value = current_life
+	manageLevel(add)	
 	
+func updateCpcCps():
+	$GoldValue.text = _get_highNumberDisplay(gold) 
 	_toggleCpcItem()
-	_toggleCpsItem()
+	$DiamondValue.text = _get_highNumberDisplay(diamond)
+	_toggleCpsItem()	
 	
 func _particle_finished(particle):
 	remove_child(particle)
@@ -283,12 +279,23 @@ func _on_button_monster_button_up():
 	Input.set_custom_mouse_cursor(config.epee_cursor)
 	
 var mob = 1
-func updateLevel(add):	
+func manageLevel(add):	
 	current_life -= add	
 	
-	if current_life <= 0:
+	if current_life <= 0:	
+		updateLevel()
+	
+	$MobLifePercent.value = current_life
+	$MobLifePercent.max_value = max_life
+	
+	$Level.text = "Level " + str(level) + "\n" + str(current_stage) + "/" + str(config.max_stage)
+	$MobLife.text = str(current_life) + "/" + str(max_life)
+	
+	updateCpcCps()	 
+	
+func updateLevel():	
 		current_stage += 1	
-		gold += add 
+		gold += add 		
 		
 		# mob 
 		if current_stage < config.boss_stage:			
@@ -297,10 +304,10 @@ func updateLevel(add):
 			$Monster.texture = config.levels[level-1]["mob" + str(mob-1)]	 	
 			max_life = config.levels[level-1]["mob_life"]			
 			
-			var new_earned = $Earned.duplicate();
+			var new_earned = $EarnedGold.duplicate();
 			add_child(new_earned)
-			new_earned.label_settings.font_color = Color(255, 255, 0)
 			textHover(new_earned, "+"+ str(add))
+			
 		# on va tuer le boss
 		elif current_stage == config.boss_stage:
 			#mob = 1
@@ -311,12 +318,11 @@ func updateLevel(add):
 		if current_stage > config.max_stage:
 			level += 1	
 			current_stage = 1		
-			diamond += add			
+			diamond += addperboss			
 			
-			var new_earned = $Earned.duplicate();
+			var new_earned = $EarnedDiamond.duplicate();
 			add_child(new_earned)
-			new_earned.label_settings.font_color = Color(0, 0, 255)
-			textHover(new_earned, "+"+ str(add))
+			textHover(new_earned, "+"+ str(addperboss))
 			
 			get_node(config.levels[level-2]["bg"]).visible = false
 			get_node(config.levels[level-1]["bg"]).visible = true
@@ -328,9 +334,6 @@ func updateLevel(add):
 		current_life = max_life		
 		$MobLifePercent.max_value = max_life
 		
-	$Level.text = "Level " + str(level) + "\n" + str(current_stage) + "/" + str(config.max_stage)
-	$MobLife.text = str(current_life) + "/" + str(max_life) 
-	
 func _on_logo_boutique_button_pressed():
 	$MenuBoutique.visible = !$MenuBoutique.visible
 
