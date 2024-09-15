@@ -84,16 +84,18 @@ func _process(_delta):
 	
 func _get_highNumberDisplay(valeur):
 	if valeur >= 100000000:
-		return str(float(valeur) / 1000000).left(4) + "M"
+		return str(float(valeur) / 1000000).left(6) + "M"
 	
 	if valeur >= 1000000:
 		return str(float(valeur) / 1000000).left(5) + "M"
 	
 	if valeur >= 100000:
-		return str(float(valeur) / 1000).left(4) + "k"
+		return str(float(valeur) / 1000).left(6) + "k"
 	
 	if valeur >= 10000:
 		return str(float(valeur) / 1000).left(5) + "k"
+		
+	return str(valeur)
 
 func _toggleCpcItem():		
 	$MenuBoutique/CPC1.disabled = gold < config.CPCRequirement
@@ -239,7 +241,7 @@ func _on_button_monster_button_down():
 	manageLevel(add)	
 	
 func updateCpcCps():
-	$GoldValue.text = _get_highNumberDisplay(gold) 
+	$GoldValue.text = _get_highNumberDisplay(gold)
 	_toggleCpcItem()
 	$DiamondValue.text = _get_highNumberDisplay(diamond)
 	_toggleCpsItem()	
