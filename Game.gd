@@ -83,47 +83,17 @@ func _process(_delta):
 	manageLevel(addpersec)
 	
 func _get_highNumberDisplay(valeur):
-	var suffix = ""
+	if valeur >= 100000000:
+		return str(float(valeur) / 1000000).left(4) + "M"
 	
-	var quatre_premiers_chiffres = 0
-	if valeur > pow(10,36)-1:
-		quatre_premiers_chiffres = valeur/pow(10,36)
-		suffix = "U"		
-	elif valeur > pow(10,33)-1:
-		quatre_premiers_chiffres = valeur/pow(10,33)
-		suffix = "D"
-	elif valeur > pow(10,30)-1:
-		quatre_premiers_chiffres = valeur/pow(10,30)
-		suffix = "N"		
-	elif valeur > pow(10,27)-1:
-		quatre_premiers_chiffres = valeur/pow(10,27)
-		suffix = "O"
-	elif valeur > pow(10,24)-1:
-		quatre_premiers_chiffres = valeur/pow(10,24)
-		suffix = "Sp"		
-	elif valeur > pow(10,21)-1:
-		quatre_premiers_chiffres = valeur/pow(10,21)
-		suffix = "Sx"		
-	elif valeur > pow(10,18)-1:
-		quatre_premiers_chiffres = valeur/pow(10,18)
-		suffix = "Qi"		
-	elif valeur > pow(10,15)-1:
-		quatre_premiers_chiffres = valeur/pow(10,15)
-		suffix = "Qa"		
-	elif valeur > pow(10,12)-1:
-		quatre_premiers_chiffres = valeur/pow(10,12)
-		suffix = "T"
-	elif valeur > pow(10,9)-1:
-		quatre_premiers_chiffres = valeur/pow(10,9)
-		suffix = "B"		
-	elif valeur > pow(10,6)-1:
-		quatre_premiers_chiffres = valeur/pow(10,6)
-		suffix = "M"
-	elif valeur > pow(10,3)-1:
-		quatre_premiers_chiffres = valeur/pow(10,3)
-		suffix = "K"
-		
-	return str(quatre_premiers_chiffres)+suffix
+	if valeur >= 1000000:
+		return str(float(valeur) / 1000000).left(5) + "M"
+	
+	if valeur >= 100000:
+		return str(float(valeur) / 1000).left(4) + "k"
+	
+	if valeur >= 10000:
+		return str(float(valeur) / 1000).left(5) + "k"
 
 func _toggleCpcItem():		
 	$MenuBoutique/CPC1.disabled = gold < config.CPCRequirement
