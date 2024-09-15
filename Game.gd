@@ -79,8 +79,8 @@ func _getSave():
 	
 	file.close()
 	
-func _process(_delta):
-	manageLevel(addpersec)
+#func _process(_delta):
+	#manageLevel(addpersec)
 	
 func _get_highNumberDisplay(valeur):
 	if valeur >= 100000000:
@@ -94,6 +94,8 @@ func _get_highNumberDisplay(valeur):
 	
 	if valeur >= 10000:
 		return str(float(valeur) / 1000).left(5) + "k"
+	
+	return str(valeur)
 
 func _toggleCpcItem():		
 	$MenuBoutique/CPC1.disabled = gold < config.CPCRequirement
@@ -114,12 +116,15 @@ func _input(event):
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			$MenuBoutique.visible = !$MenuBoutique.visible
 			
-func _on_Timer_timeout():
-	manageLevel(addpersec)	
+func _on_Timer_timeout():  
+	gold += addpersec #After the Timer resets, add the add per second to the gold.
+	$GoldValue.text = str(gold)
+	manageLevel(addpersec)
 		
 func _on_CPC1_pressed():
 	if gold >= config.CPCRequirement:
 		gold -= config.CPCRequirement
+		$GoldValue.text = str(gold)
 		config.CPCRequirement = round(config.CPCRequirement * 1.4)
 		add = add + 1 #Add CPC
 		var msg = str("+1 CPC [", config.CPCRequirement, " GOLD]")
@@ -130,6 +135,7 @@ func _on_CPC1_pressed():
 func _on_CPC2_pressed():
 	if gold >= config.CPCRequirement2:
 		gold -= config.CPCRequirement2
+		$GoldValue.text = str(gold)
 		config.CPCRequirement2 = round(config.CPCRequirement2 * 1.3)
 		add = add + 5 #Add CPC
 		var msg = str("+5 CPC [", config.CPCRequirement2, " GOLD]")
@@ -140,6 +146,7 @@ func _on_CPC2_pressed():
 func _on_CPC3_pressed():
 	if gold >= config.CPCRequirement3:
 		gold -= config.CPCRequirement3
+		$GoldValue.text = str(gold)
 		config.CPCRequirement3 = round(config.CPCRequirement3 * 1.2)
 		add = add + 20 #Add CPC
 		var msg = str("+20 CPC [", config.CPCRequirement3, " GOLD]")
@@ -150,6 +157,7 @@ func _on_CPC3_pressed():
 func _on_CPC4_pressed():
 	if gold >= config.CPCRequirement4:
 		gold -= config.CPCRequirement4
+		$GoldValue.text = str(gold)
 		config.CPCRequirement4 = round(config.CPCRequirement4 * 1.1)
 		add = add + 125 #Add CPC
 		var msg = str("+125 CPC [", config.CPCRequirement4, " GOLD]")
@@ -160,6 +168,7 @@ func _on_CPC4_pressed():
 func _on_CPC5_pressed():
 	if gold >= config.CPCRequirement5:
 		gold -= config.CPCRequirement5
+		$GoldValue.text = str(gold)
 		config.CPCRequirement5 = config.CPCRequirement5
 		add = add + 500 #Add CPC
 		var msg = str("+500 CPC [", config.CPCRequirement5, " GOLD]")
@@ -170,6 +179,7 @@ func _on_CPC5_pressed():
 func _on_CPS1_pressed():
 	if diamond >= config.CPSRequirement:
 		diamond -= config.CPSRequirement
+		$DiamondValue.text = str(diamond)
 		config.CPSRequirement = round(config.CPSRequirement * 1.4)
 		addpersec = addpersec + 1 #Add CPS.
 		var msg = str("+1 CPS [", config.CPSRequirement, " DIAMOND]") 
@@ -180,6 +190,7 @@ func _on_CPS1_pressed():
 func _on_CPS2_pressed():
 	if diamond >= config.CPSRequirement2:
 		diamond -= config.CPSRequirement2
+		$DiamondValue.text = str(diamond)
 		config.CPSRequirement2 = round(config.CPSRequirement2 * 1.3)
 		addpersec = addpersec + 5 #Add CPS.
 		var msg = str("+5 CPS [", config.CPSRequirement2, " DIAMOND]")
@@ -188,8 +199,9 @@ func _on_CPS2_pressed():
 		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS3_pressed():
-	if gold >= config.CPSRequirement3:
-		gold -= config.CPSRequirement3
+	if diamond >= config.CPSRequirement3:
+		diamond -= config.CPSRequirement3
+		$DiamondValue.text = str(diamond)
 		config.CPSRequirement3 = round(config.CPSRequirement3 * 1.2)
 		addpersec = addpersec + 20 #Add CPS.
 		var msg = str("+20 CPS [", config.CPSRequirement3, " DIAMOND]") 
@@ -198,8 +210,9 @@ func _on_CPS3_pressed():
 		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS4_pressed():
-	if gold >= config.CPSRequirement4:
-		gold -= config.CPSRequirement4
+	if diamond >= config.CPSRequirement4:
+		diamond -= config.CPSRequirement4
+		$DiamondValue.text = str(diamond)
 		config.CPSRequirement4 = round(config.CPSRequirement4 * 1.1)
 		addpersec = addpersec + 125 #Add CPS.
 		var msg = str("+125 CPS [", config.CPSRequirement4, " DIAMOND]")
@@ -208,8 +221,9 @@ func _on_CPS4_pressed():
 		textHover($MenuBoutique/BoughtCPS.duplicate(), msg)
 
 func _on_CPS5_pressed():
-	if gold >= config.CPSRequirement5:
-		gold -= config.CPSRequirement5
+	if diamond >= config.CPSRequirement5:
+		diamond -= config.CPSRequirement5
+		$DiamondValue.text = str(diamond)
 		config.CPSRequirement5 = config.CPSRequirement5
 		addpersec = addpersec + 500 #Add CPS.
 		var msg = str("+500 CPS [", config.CPSRequirement5, " DIAMOND]")
