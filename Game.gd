@@ -79,49 +79,51 @@ func _getSave():
 	
 	file.close()
 	
-#func _process(_delta):
-	#manageLevel(addpersec)
+func _process(_delta):
+	manageLevel(addpersec)
 	
 func _get_highNumberDisplay(valeur):
 	var suffix = ""
 	
+	var quatre_premiers_chiffres = 0
 	if valeur > pow(10,36)-1:
+		quatre_premiers_chiffres = valeur/pow(10,36)
 		suffix = "U"		
 	elif valeur > pow(10,33)-1:
+		quatre_premiers_chiffres = valeur/pow(10,33)
 		suffix = "D"
 	elif valeur > pow(10,30)-1:
+		quatre_premiers_chiffres = valeur/pow(10,30)
 		suffix = "N"		
 	elif valeur > pow(10,27)-1:
+		quatre_premiers_chiffres = valeur/pow(10,27)
 		suffix = "O"
 	elif valeur > pow(10,24)-1:
+		quatre_premiers_chiffres = valeur/pow(10,24)
 		suffix = "Sp"		
 	elif valeur > pow(10,21)-1:
+		quatre_premiers_chiffres = valeur/pow(10,21)
 		suffix = "Sx"		
 	elif valeur > pow(10,18)-1:
+		quatre_premiers_chiffres = valeur/pow(10,18)
 		suffix = "Qi"		
 	elif valeur > pow(10,15)-1:
+		quatre_premiers_chiffres = valeur/pow(10,15)
 		suffix = "Qa"		
 	elif valeur > pow(10,12)-1:
+		quatre_premiers_chiffres = valeur/pow(10,12)
 		suffix = "T"
 	elif valeur > pow(10,9)-1:
+		quatre_premiers_chiffres = valeur/pow(10,9)
 		suffix = "B"		
 	elif valeur > pow(10,6)-1:
+		quatre_premiers_chiffres = valeur/pow(10,6)
 		suffix = "M"
 	elif valeur > pow(10,3)-1:
+		quatre_premiers_chiffres = valeur/pow(10,3)
 		suffix = "K"
 		
-	var valeur_str = str(valeur)
-	var concatened_value = valeur_str[0];
-	if suffix != "":
-		concatened_value += "."
-	if len(valeur_str) > 1:
-		concatened_value += valeur_str[1]		
-	if len(valeur_str) > 2:
-		concatened_value += valeur_str[2]
-	if len(valeur_str) > 3:
-		concatened_value += valeur_str[3]
-		
-	return concatened_value+suffix
+	return str(quatre_premiers_chiffres)+suffix
 
 func _toggleCpcItem():		
 	$MenuBoutique/CPC1.disabled = gold < config.CPCRequirement
@@ -367,3 +369,4 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		await _saveSave()
 		get_tree().quit() 
+		
