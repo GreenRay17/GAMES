@@ -1,0 +1,205 @@
+<title>Contrôle des huîtres</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: field-sheet header, score strip, tool bar, then the zoomable photo as the work surface */
+:root{
+  --bg:#eef1f0; --surface:#ffffff; --ink:#1d2624; --muted:#5b6965; --line:#cfd8d5;
+  --accent:#2f6b78;
+  --sure:#d62424; --unsure:#e8a10c; --added:#169a52; --wrong:#7c8784;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121817; --surface:#1b2321; --ink:#e3ebe8; --muted:#97a6a1; --line:#2e3a37;
+  --accent:#7fbfcc; --sure:#ff4d4d; --unsure:#ffbe3d; --added:#3fd27f; --wrong:#9aa7a3; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121817; --surface:#1b2321; --ink:#e3ebe8; --muted:#97a6a1; --line:#2e3a37;
+  --accent:#7fbfcc; --sure:#ff4d4d; --unsure:#ffbe3d; --added:#3fd27f; --wrong:#9aa7a3; color-scheme:dark}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-direction:column;gap:4px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,5vw,38px);line-height:1.1;margin:0;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:62ch}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile b{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.tile span{font-size:12.5px;color:var(--muted)}
+.tile.total{border-color:var(--accent)}
+.tile.total b{color:var(--accent)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
+.seg button{font:500 14px var(--body);border:0;background:transparent;color:var(--ink);padding:8px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+.seg button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{font:500 14px var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer}
+.status{font-size:13px;color:var(--muted);margin-left:auto}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:78vh;-webkit-overflow-scrolling:touch}
+.canvas{position:relative;width:100%}
+.canvas img{display:block;width:100%;max-width:none;height:auto;user-select:none;-webkit-user-drag:none}
+.canvas svg{position:absolute;inset:0;width:100%;height:100%}
+svg.adding{cursor:crosshair}
+.mk{cursor:pointer}
+.hit{fill:transparent;stroke:transparent;stroke-width:14}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13.5px;color:var(--muted)}
+.help{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.help h2{font-family:var(--display);font-weight:600;font-size:17px;margin:0}
+.help ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.danger{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.confirm{font-size:13.5px}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Photo du 14 oct. · 16:29 · chemin entre deux bassins</span>
+    <h1>Corrige mon comptage d'huîtres</h1>
+    <p>J'avais entouré 110 huîtres en rouge (sûres) et 11 en orange (incertaines). Touche un cercle pour dire s'il est juste ou faux, et ajoute celles que j'ai oubliées.</p>
+  </header>
+
+  <section class="score" aria-label="Bilan">
+    <div class="tile"><b id="sOk">0</b><span><i class="dot" style="background:var(--sure)"></i>rouges confirmées</span></div>
+    <div class="tile"><b id="sBad">0</b><span><i class="dot" style="background:var(--wrong)"></i>cercles faux</span></div>
+    <div class="tile"><b id="sUnk">0</b><span><i class="dot" style="background:var(--unsure)"></i>oranges = huîtres</span></div>
+    <div class="tile"><b id="sAdd">0</b><span><i class="dot" style="background:var(--added)"></i>oubliées ajoutées</span></div>
+    <div class="tile total"><b id="sTot">0</b><span>vrai total selon toi</span></div>
+  </section>
+
+  <div class="bar" role="toolbar" aria-label="Outils">
+    <div class="seg" aria-label="Mode">
+      <button id="mJudge" aria-pressed="true">Juger un cercle</button>
+      <button id="mAdd" aria-pressed="false">Ajouter une oubliée</button>
+    </div>
+    <div class="seg" aria-label="Zoom">
+      <button data-z="1" aria-pressed="true">1×</button>
+      <button data-z="2" aria-pressed="false">2×</button>
+      <button data-z="3" aria-pressed="false">3×</button>
+    </div>
+    <span class="status" id="status">Chargement…</span>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="canvas" id="canvas">
+      <img id="photo" alt="Huîtres sur un chemin de graviers entre deux bassins" src="data:image/jpeg;base64,__B64__">
+      <svg id="svg" viewBox="0 0 __W__ __H__" preserveAspectRatio="none" aria-label="Cercles de comptage"></svg>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot" style="background:var(--sure)"></i>rouge : je suis sûr</span>
+    <span><i class="dot" style="background:var(--unsure)"></i>orange : je ne suis pas sûr</span>
+    <span>✓ plein = tu confirmes</span>
+    <span>✗ pointillé gris = c'est faux</span>
+    <span><i class="dot" style="background:var(--added)"></i>vert : oubliée, ajoutée par toi</span>
+  </div>
+
+  <section class="help">
+    <h2>Comment faire</h2>
+    <ol>
+      <li><b>Juger un cercle</b> : 1<sup>re</sup> touche = juste ✓, 2<sup>e</sup> = faux ✗, 3<sup>e</sup> = revenir à non jugé.</li>
+      <li><b>Ajouter une oubliée</b> : touche l'huître sans cercle. Touche un cercle vert pour l'enlever.</li>
+      <li>Zoome en 2× ou 3× sur téléphone, les cercles sont petits.</li>
+      <li>Tes corrections s'enregistrent toutes seules. Dis-moi ensuite « j'ai fini » et je les lirai.</li>
+    </ol>
+    <div class="danger">
+      <button class="btn" id="copy">Copier le résumé</button>
+      <button class="btn" id="reset">Tout effacer</button>
+      <span class="confirm" id="confirm" hidden>Effacer toutes tes corrections ?
+        <button class="btn" id="yes">Oui, effacer</button> <button class="btn" id="no">Non</button></span>
+    </div>
+  </section>
+</div>
+
+<script>
+const MARKS=__MARKS__;
+const NS="http://www.w3.org/2000/svg";
+let verdicts={}, added=[], mode="judge", db=null, ref=null, saveT=null, nextAdd=1;
+const svg=document.getElementById("svg"), statusEl=document.getElementById("status");
+const radius=m=>m.y<400?17:22;
+
+function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e}
+function render(){
+  svg.innerHTML="";
+  for(const m of MARKS){
+    const v=verdicts[m.id], r=radius(m);
+    const col=v==="faux"?"var(--wrong)":(m.k==="sure"?"var(--sure)":"var(--unsure)");
+    const g=el("g",{class:"mk",tabindex:"0",role:"button","aria-label":(m.k==="sure"?"Cercle rouge ":"Cercle orange ")+m.id+(v?" : "+v:"")});
+    g.appendChild(el("circle",{class:"hit",cx:m.x,cy:m.y,r}));
+    const c=el("circle",{cx:m.x,cy:m.y,r,fill:v==="ok"?col:"none","fill-opacity":v==="ok"?.28:0,stroke:col,"stroke-width":v?4:3});
+    if(v==="faux")c.setAttribute("stroke-dasharray","5 4");
+    g.appendChild(c);
+    if(v==="ok")g.appendChild(el("path",{d:`M${m.x-7} ${m.y} l5 6 l10 -12`,fill:"none",stroke:"#fff","stroke-width":3.5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+    if(v==="faux")g.appendChild(el("path",{d:`M${m.x-r*.6} ${m.y-r*.6} L${m.x+r*.6} ${m.y+r*.6} M${m.x+r*.6} ${m.y-r*.6} L${m.x-r*.6} ${m.y+r*.6}`,stroke:"var(--wrong)","stroke-width":3.5,"stroke-linecap":"round"}));
+    const act=e=>{e.stopPropagation();if(mode!=="judge")return;cycle(m.id)};
+    g.addEventListener("click",act);
+    g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();cycle(m.id)}});
+    svg.appendChild(g);
+  }
+  for(const a of added){
+    const g=el("g",{class:"mk",tabindex:"0",role:"button","aria-label":"Huître ajoutée "+a.id});
+    g.appendChild(el("circle",{class:"hit",cx:a.x,cy:a.y,r:20}));
+    g.appendChild(el("circle",{cx:a.x,cy:a.y,r:20,fill:"var(--added)","fill-opacity":.2,stroke:"var(--added)","stroke-width":4}));
+    g.appendChild(el("path",{d:`M${a.x-8} ${a.y} h16 M${a.x} ${a.y-8} v16`,stroke:"var(--added)","stroke-width":3.5,"stroke-linecap":"round"}));
+    const rm=e=>{e.stopPropagation();added=added.filter(b=>b.id!==a.id);changed()};
+    g.addEventListener("click",rm);
+    g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();rm(e)}});
+    svg.appendChild(g);
+  }
+  score();
+}
+function cycle(id){const v=verdicts[id];if(!v)verdicts[id]="ok";else if(v==="ok")verdicts[id]="faux";else delete verdicts[id];changed()}
+function stats(){
+  const s={sure:0,sureOk:0,sureFaux:0,unsure:0,unsOk:0,unsFaux:0,judged:0};
+  for(const m of MARKS){const v=verdicts[m.id];if(v)s.judged++;
+    if(m.k==="sure"){s.sure++;if(v==="ok")s.sureOk++;if(v==="faux")s.sureFaux++}
+    else{s.unsure++;if(v==="ok")s.unsOk++;if(v==="faux")s.unsFaux++}}
+  s.added=added.length;
+  s.total=(s.sure-s.sureFaux)+s.unsOk+s.added;
+  return s;
+}
+function score(){
+  const s=stats();
+  sOk.textContent=s.sureOk+" / "+s.sure; sBad.textContent=s.sureFaux+s.unsFaux;
+  sUnk.textContent=s.unsOk+" / "+s.unsure; sAdd.textContent=s.added; sTot.textContent=s.total;
+}
+function changed(){render();if(!ref){statusEl.textContent="Non enregistré (copie le résumé)";return}
+  statusEl.textContent="Enregistrement…";clearTimeout(saveT);saveT=setTimeout(save,600)}
+async function save(){
+  try{await ref.set({verdicts,added,stats:stats(),updatedAt:new Date().toISOString()});statusEl.textContent="Enregistré ✓"}
+  catch(e){statusEl.textContent="Échec de l'enregistrement : "+(e&&e.code||"erreur")}
+}
+svg.addEventListener("click",e=>{
+  if(mode!=="add")return;
+  const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+  const q=p.matrixTransform(svg.getScreenCTM().inverse());
+  added.push({id:"a"+(nextAdd++),x:Math.round(q.x),y:Math.round(q.y)});changed();
+});
+function setMode(m){mode=m;mJudge.setAttribute("aria-pressed",m==="judge");mAdd.setAttribute("aria-pressed",m==="add");svg.classList.toggle("adding",m==="add")}
+mJudge.onclick=()=>setMode("judge");mAdd.onclick=()=>setMode("add");
+document.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("[data-z]").forEach(o=>o.setAttribute("aria-pressed",o===b));
+  canvas.style.width=(100*+b.dataset.z)+"%";
+});
+reset.onclick=()=>{confirm.hidden=false};no.onclick=()=>{confirm.hidden=true};
+yes.onclick=()=>{verdicts={};added=[];confirm.hidden=true;changed()};
+copy.onclick=()=>{
+  const s=stats();
+  const txt=`Huîtres – corrections\nRouges confirmées: ${s.sureOk}/${s.sure}, rouges fausses: ${s.sureFaux}\nOranges = huîtres: ${s.unsOk}/${s.unsure}, oranges fausses: ${s.unsFaux}\nOubliées ajoutées: ${s.added}\nTotal: ${s.total}\nFaux: ${Object.keys(verdicts).filter(k=>verdicts[k]==="faux").join(", ")||"aucun"}\nAjoutées (x,y): ${added.map(a=>a.x+","+(a.y+900)).join(" ; ")||"aucune"}`;
+  navigator.clipboard.writeText(txt).then(()=>{copy.textContent="Copié ✓"},()=>{copy.textContent="Copie refusée"});
+};
+render();
+(async()=>{
+  db=await window.claude?.use?.("db");
+  if(!db){statusEl.textContent="Mode local (non enregistré)";return}
+  ref=db.doc("review/main");
+  try{const snap=await ref.get();const d=snap.exists?snap.data():snap.data&&snap.data();
+    if(d){verdicts=d.verdicts||{};added=d.added||[];nextAdd=added.reduce((m,a)=>Math.max(m,+a.id.slice(1)||0),0)+1;render()}
+    statusEl.textContent="Prêt";}
+  catch(e){statusEl.textContent="Lecture impossible : "+(e&&e.code||"erreur")}
+})();
+</script>

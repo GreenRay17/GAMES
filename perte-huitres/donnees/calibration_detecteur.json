@@ -1,0 +1,54 @@
+{
+ "photo": "photo1",
+ "verite": "132 positions (correction 1 : 109 sures gardees + 23 ajoutees), tolerance d'appariement 20 px",
+ "detecteur_seul_meilleurs_reglages": [
+  {
+   "seuil_gris": 85,
+   "distance_min": 10,
+   "dt_min": 6,
+   "sat_herbe": 80,
+   "F1": 0.74,
+   "precision": 0.75,
+   "rappel": 0.73,
+   "n": 129
+  },
+  {
+   "seuil_gris": 75,
+   "distance_min": 8,
+   "dt_min": 6,
+   "sat_herbe": 60,
+   "F1": 0.74,
+   "precision": 0.74,
+   "rappel": 0.73,
+   "n": 129
+  },
+  {
+   "seuil_gris": 75,
+   "distance_min": 14,
+   "dt_min": 6,
+   "sat_herbe": 60,
+   "F1": 0.73,
+   "precision": 0.85,
+   "rappel": 0.64,
+   "n": 100
+  }
+ ],
+ "claude_manuel_v1": {
+  "F1": 0.91,
+  "precision": 1.0,
+  "rappel": 0.83,
+  "n": 110
+ },
+ "hybride_manuel_plus_detecteur_auto": {
+  "meilleur": {
+   "seuil": 75,
+   "distance": 8,
+   "ecart_min_px": 26,
+   "ajouts": 16,
+   "F1": 0.868,
+   "precision": 0.889,
+   "rappel": 0.848
+  },
+  "conclusion": "ajouter automatiquement les candidats du detecteur fait baisser la precision ; ils servent seulement de pistes a verifier a l'oeil"
+ }
+}

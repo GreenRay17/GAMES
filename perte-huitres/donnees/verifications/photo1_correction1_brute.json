@@ -1,0 +1,142 @@
+{
+ "source": "https://claude.ai/artifact/EEcMQMU7q6Cr5jmkBDJM8F",
+ "collection": "review/main",
+ "version_db": 59,
+ "horodatage": "2026-10-19T20:11:50Z",
+ "repere_coordonnees": "x identique a l'original ; y = y_original - 900 (image recadree de y=900 a 1940)",
+ "data": {
+  "added": [
+   {
+    "id": "a1",
+    "x": 108,
+    "y": 391
+   },
+   {
+    "id": "a2",
+    "x": 1011,
+    "y": 876
+   },
+   {
+    "id": "a6",
+    "x": 551,
+    "y": 404
+   },
+   {
+    "id": "a14",
+    "x": 414,
+    "y": 387
+   },
+   {
+    "id": "a15",
+    "x": 398,
+    "y": 266
+   },
+   {
+    "id": "a16",
+    "x": 404,
+    "y": 215
+   },
+   {
+    "id": "a18",
+    "x": 357,
+    "y": 152
+   },
+   {
+    "id": "a19",
+    "x": 591,
+    "y": 232
+   },
+   {
+    "id": "a20",
+    "x": 387,
+    "y": 134
+   },
+   {
+    "id": "a21",
+    "x": 358,
+    "y": 167
+   },
+   {
+    "id": "a22",
+    "x": 344,
+    "y": 202
+   },
+   {
+    "id": "a23",
+    "x": 359,
+    "y": 221
+   },
+   {
+    "id": "a24",
+    "x": 308,
+    "y": 338
+   },
+   {
+    "id": "a25",
+    "x": 352,
+    "y": 388
+   },
+   {
+    "id": "a26",
+    "x": 352,
+    "y": 416
+   },
+   {
+    "id": "a27",
+    "x": 393,
+    "y": 348
+   },
+   {
+    "id": "a28",
+    "x": 357,
+    "y": 352
+   },
+   {
+    "id": "a29",
+    "x": 346,
+    "y": 366
+   },
+   {
+    "id": "a30",
+    "x": 405,
+    "y": 366
+   },
+   {
+    "id": "a31",
+    "x": 354,
+    "y": 451
+   },
+   {
+    "id": "a32",
+    "x": 290,
+    "y": 570
+   },
+   {
+    "id": "a33",
+    "x": 653,
+    "y": 376
+   },
+   {
+    "id": "a34",
+    "x": 640,
+    "y": 441
+   }
+  ],
+  "stats": {
+   "added": 23,
+   "judged": 2,
+   "sure": 110,
+   "sureFaux": 1,
+   "sureOk": 0,
+   "total": 132,
+   "unsFaux": 1,
+   "unsOk": 0,
+   "unsure": 11
+  },
+  "verdicts": {
+   "o10": "faux",
+   "r6": "faux"
+  }
+ },
+ "commentaire_utilisateur": "c'est a 99% vrai"
+}
