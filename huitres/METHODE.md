@@ -48,3 +48,15 @@ Cause : tuiles trop grandes, zoom ×2 seulement. Règle : dans un tas, compter *
 - Image annotée + total : `X rouges (sûres) + Y oranges (incertaines)`.
 - Une fourchette honnête : minimum = rouges, maximum = rouges + oranges.
 - Ce que j'ai volontairement laissé de côté (fond lointain, cas ambigus).
+
+## Tas trop compact pour être pointé (photo 3)
+
+Quand une huître fait moins de ~15 px et que les coquilles se recouvrent, les pointer une à une
+est du hasard. Je passe alors en **estimation par densité** :
+1. Délimiter le tas (polygone violet) et le découper en bandes horizontales de 50 px.
+2. Compter finement une case échantillon de 100 × 100 px (zoom ×8, grille 12,5 px) :
+   photo 3 → ~40 huîtres pour 100 × 100 px là où une huître fait ~17 px.
+3. Corriger par la perspective : densité ∝ 1 / taille², la taille d'une huître grandissant
+   linéairement vers le bas de l'image.
+4. Par bande : surface × taux de couverture (sol visible, coquilles blanches exclus) × densité.
+5. Rendre une fourchette ±25 %, et pointer normalement tout ce qui est hors du tas.
