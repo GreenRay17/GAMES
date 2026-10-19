@@ -11,14 +11,17 @@
 | | |
 |---|---|
 | Mon 1er comptage | 110 rouges + 11 oranges |
-| Vérité après correction | **132** (109 de mes rouges + 23 oubliées) |
-| Précision de mes rouges | 109/110 = **99 %** → quand je dis « sûr », c'est fiable |
-| Rappel | 109/132 = **83 %** → **mon défaut : j'en oublie** |
+| Vérité après 2e correction | **138** (108 rouges + 4 oranges validées + 26 oubliées) |
+| Précision de mes rouges | 108/110 = **98 %** → quand je dis « sûr », c'est fiable |
+| Précision de mes oranges | 4 vraies / 3 fausses / 4 non jugées → ~50/50, l'orange a du sens |
+| Rappel | 112/138 = **81 %** → **mon défaut : j'en oublie** |
 | Détecteur automatique seul | F1 0.74 : trop de faux positifs (herbe, ombres) |
 
-Où étaient les oubliées : presque toutes dans **le tas dense**, où 2–3 huîtres se
-chevauchent et où j'avais mis un seul cercle. Plus 2 isolées sur les bords (herbe).
-Cause : tuiles trop grandes, zoom ×2 seulement.
+Où étaient les oubliées : presque toutes dans **le tas dense**, surtout son **bord haut-gauche**
+(6 oubliées dans un carré de 50 px), où 2–3 huîtres se chevauchent et où j'avais mis un seul
+cercle. Plus 1 isolée dans l'herbe à gauche.
+Cause : tuiles trop grandes, zoom ×2 seulement. Règle : dans un tas, compter **au moins
+1 huître par carré de grille de 25 px** couvert de coquilles foncées, puis vérifier.
 
 ## Procédure
 
